@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>手習い — Kana desde cero</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2B4570">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tenarai">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEAE0;
+    --paper-deep:#E4DCC9;
+    --ink:#1C1B19;
+    --ink-soft:#5B564C;
+    --indigo:#2B4570;
+    --indigo-deep:#1D2E4A;
+    --seal:#AE3B2E;
+    --seal-soft:#D8B8AE;
+    --line:#C9C0AA;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; background:var(--paper); color:var(--ink); font-family:'Zen Kaku Gothic New', sans-serif; overscroll-behavior:none;}
+  body{min-height:100vh; display:flex; flex-direction:column;}
+  .jp{font-family:'Noto Sans JP', sans-serif;}
+  .mincho{font-family:'Shippori Mincho', serif;}
+
+  header{
+    padding:18px 20px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--line);
+  }
+  header .title{display:flex; align-items:baseline; gap:8px;}
+  header .title .jp{font-size:22px; font-weight:700; color:var(--ink);}
+  header .title .sub{font-size:12px; color:var(--ink-soft); letter-spacing:.02em;}
+  .seal{
+    width:30px; height:30px; border-radius:4px; background:var(--seal);
+    color:#F3E8CF; display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:700;
+    transform:rotate(-3deg);
+  }
+
+  main{flex:1; width:100%; max-width:480px; margin:0 auto; padding:20px; padding-bottom:90px;}
+
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* HOME */
+  .set-card{
+    background:var(--paper-deep); border:1px solid var(--line); border-radius:14px;
+    padding:22px 20px; margin-bottom:16px; display:flex; align-items:center; gap:16px;
+    cursor:pointer; transition:transform .15s ease;
+  }
+  .set-card:active{transform:scale(.98);}
+  .set-card .glyph{font-size:38px; font-weight:700; color:var(--indigo);}
+  .set-card .info{flex:1;}
+  .set-card .info .name{font-size:17px; font-weight:700; margin-bottom:4px;}
+  .set-card .info .stat{font-size:13px; color:var(--ink-soft);}
+  .bar{height:6px; border-radius:3px; background:var(--line); margin-top:8px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--indigo); border-radius:3px;}
+
+  .intro-note{
+    font-size:13.5px; color:var(--ink-soft); line-height:1.55; padding:14px 16px;
+    border-left:3px solid var(--seal); background:rgba(174,59,46,0.06); border-radius:0 8px 8px 0;
+    margin-bottom:22px;
+  }
+
+  /* TABS */
+  .tabbar{
+    display:flex; gap:8px; margin-bottom:18px; border-bottom:1px solid var(--line);
+  }
+  .tab{
+    flex:1; text-align:center; padding:10px 4px; font-size:14px; font-weight:700;
+    color:var(--ink-soft); border-bottom:2px solid transparent; cursor:pointer;
+  }
+  .tab.active{color:var(--indigo); border-bottom-color:var(--indigo);}
+
+  .back-row{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .back-btn{
+    font-size:13px; color:var(--indigo); font-weight:700; cursor:pointer; padding:6px 0;
+  }
+  .set-heading{font-size:19px; font-weight:700;}
+
+  /* STUDY (flashcards) */
+  .flash-wrap{display:flex; flex-direction:column; align-items:center;}
+  .flash-progress{font-size:12px; color:var(--ink-soft); margin-bottom:12px;}
+  .flashcard{
+    width:100%; max-width:280px; aspect-ratio:1/1; background:#fff; border:1px solid var(--line);
+    border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    box-shadow:0 3px 0 var(--line); cursor:pointer; position:relative;
+  }
+  .flashcard .big-kana{font-family:'Noto Sans JP',sans-serif; font-size:96px; color:var(--ink);}
+  .flashcard .romaji-back{font-size:34px; font-weight:700; color:var(--indigo); margin-bottom:10px;}
+  .flashcard .mnemonic{font-size:13.5px; color:var(--ink-soft); text-align:center; padding:0 24px; line-height:1.5;}
+  .flashcard .hint{position:absolute; bottom:14px; font-size:11px; color:var(--line); }
+  .flash-actions{display:flex; gap:12px; margin-top:20px; width:100%; max-width:280px;}
+  .flash-actions button{
+    flex:1; padding:13px 0; border-radius:10px; border:1px solid var(--line); background:#fff;
+    font-family:inherit; font-size:14px; font-weight:700; cursor:pointer;
+  }
+  .flash-actions .know{color:var(--indigo); border-color:var(--indigo);}
+  .flash-actions .review{color:var(--seal); border-color:var(--seal-soft);}
+
+  /* WRITE */
+  .write-wrap{display:flex; flex-direction:column; align-items:center;}
+  .write-target{font-size:13px; color:var(--ink-soft); margin-bottom:2px; text-align:center;}
+  .write-romaji{font-size:22px; font-weight:700; color:var(--indigo); margin-bottom:12px;}
+  .canvas-frame{
+    position:relative; width:100%; max-width:280px; aspect-ratio:1/1;
+    background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    box-shadow:0 3px 0 var(--line);
+  }
+  .guide-layer{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Sans JP',sans-serif; font-size:180px; color:var(--ink); pointer-events:none;
+    user-select:none;
+  }
+  .grid-lines{position:absolute; inset:0; pointer-events:none;}
+  canvas.draw{position:absolute; inset:0; touch-action:none;}
+  .write-mnemonic{
+    font-size:13px; color:var(--ink-soft); text-align:center; max-width:280px; margin-top:12px; line-height:1.5;
+  }
+  .write-controls{display:flex; gap:10px; margin-top:16px; width:100%; max-width:280px;}
+  .write-controls button{
+    flex:1; padding:12px 0; border-radius:10px; border:1px solid var(--line); background:#fff;
+    font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
+  }
+  .write-controls .done{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+  .mastery-tag{
+    font-size:11px; padding:4px 10px; border-radius:20px; margin-top:10px;
+    background:var(--paper-deep); color:var(--ink-soft); font-weight:700;
+  }
+  .toggle-row{display:flex; align-items:center; gap:8px; margin-top:14px; font-size:12.5px; color:var(--ink-soft);}
+  .toggle-row input{accent-color:var(--indigo);}
+
+  /* PROGRESS GRID */
+  .kgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:8px;}
+  .kcell{
+    aspect-ratio:1/1; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Sans JP',sans-serif; font-size:20px; cursor:pointer; border:1px solid var(--line);
+    background:#fff; color:var(--ink-soft);
+  }
+  .kcell.l0{background:#fff;}
+  .kcell.l1{background:#F3E3C9; color:var(--ink); border-color:#E4C489;}
+  .kcell.l2{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+  .legend{display:flex; gap:14px; margin-top:14px; font-size:11.5px; color:var(--ink-soft); flex-wrap:wrap;}
+  .legend span{display:inline-flex; align-items:center; gap:5px;}
+  .dot{width:10px; height:10px; border-radius:3px; display:inline-block;}
+
+  nav.bottom{
+    position:fixed; bottom:0; left:0; right:0; background:var(--paper);
+    border-top:1px solid var(--line); display:flex; justify-content:center;
+  }
+  nav.bottom .inner{display:flex; width:100%; max-width:480px;}
+  nav.bottom button{
+    flex:1; padding:12px 0 10px; background:none; border:none; font-family:inherit;
+    color:var(--ink-soft); font-size:11.5px; font-weight:700; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px;
+  }
+  nav.bottom button.active{color:var(--indigo);}
+  nav.bottom button .ic{font-size:17px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title">
+    <span class="jp">手習い</span>
+    <span class="sub">Tenarai · Kana</span>
+  </div>
+  <div class="seal">習</div>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section id="screen-home" class="screen active">
+    <p class="intro-note">Domina hiragana y katakana con mnemotecnia y planas de caligrafía. Empieza calcando el trazo; a medida que practiques, la guía se irá desvaneciendo hasta que escribas de memoria.</p>
+    <div class="set-card" data-set="hiragana">
+      <div class="glyph jp">あ</div>
+      <div class="info">
+        <div class="name">Hiragana</div>
+        <div class="stat" id="stat-hiragana">0 / 71 dominados</div>
+        <div class="bar"><div class="bar-fill" id="bar-hiragana" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="set-card" data-set="katakana">
+      <div class="glyph jp">ア</div>
+      <div class="info">
+        <div class="name">Katakana</div>
+        <div class="stat" id="stat-katakana">0 / 71 dominados</div>
+        <div class="bar"><div class="bar-fill" id="bar-katakana" style="width:0%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SET (study / write / progress) -->
+  <section id="screen-set" class="screen">
+    <div class="back-row">
+      <span class="back-btn" onclick="goHome()">‹ Inicio</span>
+      <span class="set-heading" id="set-heading">Hiragana</span>
+    </div>
+    <div class="tabbar">
+      <div class="tab active" data-tab="study" onclick="switchTab('study')">Estudiar</div>
+      <div class="tab" data-tab="write" onclick="switchTab('write')">Escribir</div>
+      <div class="tab" data-tab="progress" onclick="switchTab('progress')">Progreso</div>
+    </div>
+
+    <!-- STUDY -->
+    <div id="tab-study" class="tabpane">
+      <div class="flash-wrap">
+        <div class="flash-progress" id="study-progress">1 / 71</div>
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="big-kana jp" id="fc-front"></div>
+          <div class="hint" id="fc-hint">Toca para ver el nombre</div>
+        </div>
+        <div class="flash-actions">
+          <button class="review" onclick="studyNext(false)">🔁 Repasar</button>
+          <button class="know" onclick="studyNext(true)">✓ Lo sé</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITE -->
+    <div id="tab-write" class="tabpane" style="display:none;">
+      <div class="write-wrap">
+        <div class="write-target">Escribe:</div>
+        <div class="write-romaji" id="write-romaji">a</div>
+        <div class="canvas-frame">
+          <div class="guide-layer jp" id="guide-char">あ</div>
+          <canvas class="draw" id="draw-canvas"></canvas>
+        </div>
+        <div class="mastery-tag" id="mastery-tag">0 repeticiones</div>
+        <div class="toggle-row">
+          <input type="checkbox" id="guide-toggle" checked onchange="renderGuide()">
+          <label for="guide-toggle">Mostrar guía de trazo</label>
+        </div>
+        <div class="write-mnemonic" id="write-mnemonic"></div>
+        <div class="write-controls">
+          <button onclick="clearCanvas()">Borrar</button>
+          <button class="done" onclick="markDone()">✓ Hecho, siguiente</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="tab-progress" class="tabpane" style="display:none;">
+      <div class="kgrid" id="kgrid"></div>
+      <div class="legend">
+        <span><span class="dot" style="background:#fff;border:1px solid var(--line);"></span>Nuevo</span>
+        <span><span class="dot" style="background:#F3E3C9;"></span>Practicando</span>
+        <span><span class="dot" style="background:var(--indigo);"></span>Dominado</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom">
+  <div class="inner">
+    <button onclick="goHome()" id="nav-home" class="active"><span class="ic">⛩</span>Inicio</button>
+    <button onclick="openSet('hiragana')" id="nav-hira"><span class="ic">あ</span>Hiragana</button>
+    <button onclick="openSet('katakana')" id="nav-kata"><span class="ic">ア</span>Katakana</button>
+  </div>
+</nav>
+
+<script>
+/* ---------------- DATA ---------------- */
+// m = mnemonic (asociación visual), r = romaji, c = carácter
+const HIRAGANA = [
+ {c:"あ",r:"a",m:"Parece una antena doblada hacia un lado."},
+ {c:"い",r:"i",m:"Dos palillos de arroz de pie, uno junto al otro."},
+ {c:"う",r:"u",m:"Una ola pequeña con un gorro encima."},
+ {c:"え",r:"e",m:"Una anguila retorciéndose."},
+ {c:"お",r:"o",m:"Una cinta con un lazo y una gota cayendo."},
+ {c:"か",r:"ka",m:"Una llave con un rabito curvo."},
+ {c:"き",r:"ki",m:"Una llave con dos dientes, como una K partida."},
+ {c:"く",r:"ku",m:"Un boomerang, o el pico de un pájaro."},
+ {c:"け",r:"ke",m:"Una pierna dando una patada hacia atrás."},
+ {c:"こ",r:"ko",m:"Dos barras curvas, como un imán."},
+ {c:"さ",r:"sa",m:"Un lazo que se está desatando."},
+ {c:"し",r:"shi",m:"Un gancho de pescar."},
+ {c:"す",r:"su",m:"Un caracol enroscándose sobre sí mismo."},
+ {c:"せ",r:"se",m:"Una hoz con una raya cruzando el mango."},
+ {c:"そ",r:"so",m:"Un zigzag, como un rayo."},
+ {c:"た",r:"ta",m:"Una mesa con dos patas cruzadas."},
+ {c:"ち",r:"chi",m:"Un signo de interrogación pequeño."},
+ {c:"つ",r:"tsu",m:"Una ola que está rompiendo."},
+ {c:"て",r:"te",m:"Una antena de televisión torcida."},
+ {c:"と",r:"to",m:"Una hoz colgada de un gancho."},
+ {c:"な",r:"na",m:"Un lazo con una cruz al centro."},
+ {c:"に",r:"ni",m:"Un lazo con dos rayas verticales."},
+ {c:"ぬ",r:"nu",m:"Un fideo enroscándose con un rulo."},
+ {c:"ね",r:"ne",m:"Un gato con la cola enroscada."},
+ {c:"の",r:"no",m:"Un lazo que se cierra formando un ojal."},
+ {c:"は",r:"ha",m:"Una persona con una capa al viento."},
+ {c:"ひ",r:"hi",m:"Una sonrisa curva de perfil."},
+ {c:"ふ",r:"fu",m:"El monte Fuji visto con dos jorobas."},
+ {c:"へ",r:"he",m:"Una montaña puntiaguda, como un acento."},
+ {c:"ほ",r:"ho",m:"Una casa con una antena en el techo."},
+ {c:"ま",r:"ma",m:"Un lazo con un rulo, como alguien peinándose."},
+ {c:"み",r:"mi",m:"Un número 3 enroscado al final."},
+ {c:"む",r:"mu",m:"Un monstruo con cuernos y cola."},
+ {c:"め",r:"me",m:"Un ojo cerrándose ('me' significa ojo)."},
+ {c:"も",r:"mo",m:"Un gancho de pescar con una cruz."},
+ {c:"や",r:"ya",m:"Una flecha, o la vela de un yate."},
+ {c:"ゆ",r:"yu",m:"Un gancho con cola, como un anzuelo."},
+ {c:"よ",r:"yo",m:"Un yoyo con su cuerda colgando."},
+ {c:"ら",r:"ra",m:"Una persona saltando con una pierna al aire."},
+ {c:"り",r:"ri",m:"Dos palillos desiguales, uno más corto."},
+ {c:"る",r:"ru",m:"Un lazo que termina en un rulo cerrado."},
+ {c:"れ",r:"re",m:"Una persona reclinada apoyando una pata."},
+ {c:"ろ",r:"ro",m:"Un lazo abierto, como una argolla."},
+ {c:"わ",r:"wa",m:"Un lazo con una colita, como una 'w'."},
+ {c:"を",r:"wo",m:"Un lazo con dos rayas cruzándolo."},
+ {c:"ん",r:"n",m:"Un gancho simple, el único sonido sin vocal."},
+ {c:"が",r:"ga",m:"Es か + ゛(tenten): mismo trazo, sonido con vibración."},
+ {c:"ぎ",r:"gi",m:"Es き + ゛(tenten): sonido con vibración."},
+ {c:"ぐ",r:"gu",m:"Es く + ゛(tenten): sonido con vibración."},
+ {c:"げ",r:"ge",m:"Es け + ゛(tenten): sonido con vibración."},
+ {c:"ご",r:"go",m:"Es こ + ゛(tenten): sonido con vibración."},
+ {c:"ざ",r:"za",m:"Es さ + ゛(tenten): sonido con vibración."},
+ {c:"じ",r:"ji",m:"Es し + ゛(tenten): sonido con vibración."},
+ {c:"ず",r:"zu",m:"Es す + ゛(tenten): sonido con vibración."},
+ {c:"ぜ",r:"ze",m:"Es せ + ゛(tenten): sonido con vibración."},
+ {c:"ぞ",r:"zo",m:"Es そ + ゛(tenten): sonido con vibración."},
+ {c:"だ",r:"da",m:"Es た + ゛(tenten): sonido con vibración."},
+ {c:"ぢ",r:"ji",m:"Es ち + ゛(tenten): suena casi igual que じ."},
+ {c:"づ",r:"zu",m:"Es つ + ゛(tenten): suena casi igual que ず."},
+ {c:"で",r:"de",m:"Es て + ゛(tenten): sonido con vibración."},
+ {c:"ど",r:"do",m:"Es と + ゛(tenten): sonido con vibración."},
+ {c:"ば",r:"ba",m:"Es は + ゛(tenten): sonido con vibración."},
+ {c:"び",r:"bi",m:"Es ひ + ゛(tenten): sonido con vibración."},
+ {c:"ぶ",r:"bu",m:"Es ふ + ゛(tenten): sonido con vibración."},
+ {c:"べ",r:"be",m:"Es へ + ゛(tenten): sonido con vibración."},
+ {c:"ぼ",r:"bo",m:"Es ほ + ゛(tenten): sonido con vibración."},
+ {c:"ぱ",r:"pa",m:"Es は + ゜(maru): sonido explosivo suave."},
+ {c:"ぴ",r:"pi",m:"Es ひ + ゜(maru): sonido explosivo suave."},
+ {c:"ぷ",r:"pu",m:"Es ふ + ゜(maru): sonido explosivo suave."},
+ {c:"ぺ",r:"pe",m:"Es へ + ゜(maru): sonido explosivo suave."},
+ {c:"ぽ",r:"po",m:"Es ほ + ゜(maru): sonido explosivo suave."}
+];
+
+const KATAKANA = [
+ {c:"ア",r:"a",m:"Parece una tienda de campaña."},
+ {c:"イ",r:"i",m:"Una persona caminando con una pierna adelante."},
+ {c:"ウ",r:"u",m:"Una tapa con dos cuernitos arriba."},
+ {c:"エ",r:"e",m:"Una letra I mayúscula acostada."},
+ {c:"オ",r:"o",m:"Un árbol con una rama saliendo al costado."},
+ {c:"カ",r:"ka",m:"Una guadaña con el mango recto."},
+ {c:"キ",r:"ki",m:"Una llave hecha con líneas rectas."},
+ {c:"ク",r:"ku",m:"Un ángulo agudo, como una esquina."},
+ {c:"ケ",r:"ke",m:"Una pierna estirada con una línea extra."},
+ {c:"コ",r:"ko",m:"Una caja abierta de lado."},
+ {c:"サ",r:"sa",m:"Una antena con tres puntas."},
+ {c:"シ",r:"shi",m:"Tres gotas cayendo hacia la izquierda."},
+ {c:"ス",r:"su",m:"Un columpio colgando de una cuerda."},
+ {c:"セ",r:"se",m:"Una cerca torcida."},
+ {c:"ソ",r:"so",m:"Dos gotas cayendo hacia la derecha."},
+ {c:"タ",r:"ta",m:"Una bandera ondeando en un mástil."},
+ {c:"チ",r:"chi",m:"Un martillo visto de lado."},
+ {c:"ツ",r:"tsu",m:"Tres garras apuntando hacia arriba."},
+ {c:"テ",r:"te",m:"Una mesa con una sola pata al centro."},
+ {c:"ト",r:"to",m:"Una persona de pie apoyada en un bastón."},
+ {c:"ナ",r:"na",m:"Una cruz con un gancho hacia abajo."},
+ {c:"ニ",r:"ni",m:"Dos rayas horizontales, como el número 2."},
+ {c:"ヌ",r:"nu",m:"Un lazo que se cruza a sí mismo."},
+ {c:"ネ",r:"ne",m:"Una antena conectada a una red."},
+ {c:"ノ",r:"no",m:"Una sola raya diagonal, como un tache."},
+ {c:"ハ",r:"ha",m:"Dos patas abiertas, como una montaña sin cima."},
+ {c:"ヒ",r:"hi",m:"Una escalera pequeña de dos peldaños."},
+ {c:"フ",r:"fu",m:"Un gancho simple, como una hoz sin mango."},
+ {c:"ヘ",r:"he",m:"Una montaña puntiaguda, igual que en hiragana."},
+ {c:"ホ",r:"ho",m:"Una casa con dos antenas cruzadas."},
+ {c:"マ",r:"ma",m:"Un gancho con una cruz encima."},
+ {c:"ミ",r:"mi",m:"Tres rayas paralelas inclinadas."},
+ {c:"ム",r:"mu",m:"Un triángulo abierto por un costado."},
+ {c:"メ",r:"me",m:"Una X con un gancho, como ojos entrecerrados."},
+ {c:"モ",r:"mo",m:"Una antena con tres líneas horizontales."},
+ {c:"ヤ",r:"ya",m:"Una flecha inclinada hacia un lado."},
+ {c:"ユ",r:"yu",m:"Un gancho con una base curva."},
+ {c:"ヨ",r:"yo",m:"Tres rayas horizontales conectadas por la izquierda."},
+ {c:"ラ",r:"ra",m:"Una bandera pequeña con un gancho."},
+ {c:"リ",r:"ri",m:"Dos palitos verticales, uno más corto."},
+ {c:"ル",r:"ru",m:"Un gancho que termina en un rulo."},
+ {c:"レ",r:"re",m:"Una línea que baja y gira hacia la derecha."},
+ {c:"ロ",r:"ro",m:"Un cuadrado perfecto, como una boca."},
+ {c:"ワ",r:"wa",m:"Un gancho abierto, como una oreja."},
+ {c:"ヲ",r:"wo",m:"Una raya con un gancho doble."},
+ {c:"ン",r:"n",m:"Un gancho inclinado, casi igual a ソ pero al revés."},
+ {c:"ガ",r:"ga",m:"Es カ + ゛(tenten): sonido con vibración."},
+ {c:"ギ",r:"gi",m:"Es キ + ゛(tenten): sonido con vibración."},
+ {c:"グ",r:"gu",m:"Es ク + ゛(tenten): sonido con vibración."},
+ {c:"ゲ",r:"ge",m:"Es ケ + ゛(tenten): sonido con vibración."},
+ {c:"ゴ",r:"go",m:"Es コ + ゛(tenten): sonido con vibración."},
+ {c:"ザ",r:"za",m:"Es サ + ゛(tenten): sonido con vibración."},
+ {c:"ジ",r:"ji",m:"Es シ + ゛(tenten): sonido con vibración."},
+ {c:"ズ",r:"zu",m:"Es ス + ゛(tenten): sonido con vibración."},
+ {c:"ゼ",r:"ze",m:"Es セ + ゛(tenten): sonido con vibración."},
+ {c:"ゾ",r:"zo",m:"Es ソ + ゛(tenten): sonido con vibración."},
+ {c:"ダ",r:"da",m:"Es タ + ゛(tenten): sonido con vibración."},
+ {c:"ヂ",r:"ji",m:"Es チ + ゛(tenten): suena casi igual que ジ."},
+ {c:"ヅ",r:"zu",m:"Es ツ + ゛(tenten): suena casi igual que ズ."},
+ {c:"デ",r:"de",m:"Es テ + ゛(tenten): sonido con vibración."},
+ {c:"ド",r:"do",m:"Es ト + ゛(tenten): sonido con vibración."},
+ {c:"バ",r:"ba",m:"Es ハ + ゛(tenten): sonido con vibración."},
+ {c:"ビ",r:"bi",m:"Es ヒ + ゛(tenten): sonido con vibración."},
+ {c:"ブ",r:"bu",m:"Es フ + ゛(tenten): sonido con vibración."},
+ {c:"ベ",r:"be",m:"Es ヘ + ゛(tenten): sonido con vibración."},
+ {c:"ボ",r:"bo",m:"Es ホ + ゛(tenten): sonido con vibración."},
+ {c:"パ",r:"pa",m:"Es ハ + ゜(maru): sonido explosivo suave."},
+ {c:"ピ",r:"pi",m:"Es ヒ + ゜(maru): sonido explosivo suave."},
+ {c:"プ",r:"pu",m:"Es フ + ゜(maru): sonido explosivo suave."},
+ {c:"ペ",r:"pe",m:"Es ヘ + ゜(maru): sonido explosivo suave."},
+ {c:"ポ",r:"po",m:"Es ホ + ゜(maru): sonido explosivo suave."}
+];
+
+const SETS = {hiragana:HIRAGANA, katakana:KATAKANA};
+
+/* ---------------- STORAGE ---------------- */
+const STORE_KEY = "tenarai_progress_v1";
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveProgress(p){ localStorage.setItem(STORE_KEY, JSON.stringify(p)); }
+let progress = loadProgress(); // { "hiragana:あ": {reps:0, known:false} }
+
+function keyFor(set, c){ return set+":"+c; }
+function getEntry(set,c){
+  const k = keyFor(set,c);
+  if(!progress[k]) progress[k] = {reps:0, known:false};
+  return progress[k];
+}
+function masteryLevel(reps){
+  if(reps>=6) return 2;
+  if(reps>=3) return 1;
+  return 0;
+}
+function guideOpacity(reps){
+  if(reps>=6) return 0;
+  if(reps>=3) return 0.14;
+  return 0.42;
+}
+
+/* ---------------- NAV STATE ---------------- */
+let currentSet = "hiragana";
+let studyIndex = 0;
+let flipped = false;
+let writeIndex = 0;
+
+function goHome(){
+  document.getElementById('screen-home').classList.add('active');
+  document.getElementById('screen-set').classList.remove('active');
+  setActiveNav('nav-home');
+  refreshHomeStats();
+}
+function setActiveNav(id){
+  ['nav-home','nav-hira','nav-kata'].forEach(n=>document.getElementById(n).classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function openSet(set){
+  currentSet = set;
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-set').classList.add('active');
+  document.getElementById('set-heading').textContent = set==='hiragana' ? 'Hiragana' : 'Katakana';
+  setActiveNav(set==='hiragana' ? 'nav-hira' : 'nav-kata');
+  switchTab('study');
+}
+document.querySelectorAll('.set-card').forEach(el=>{
+  el.addEventListener('click', ()=> openSet(el.dataset.set));
+});
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.getElementById('tab-study').style.display = tab==='study' ? 'block' : 'none';
+  document.getElementById('tab-write').style.display = tab==='write' ? 'block' : 'none';
+  document.getElementById('tab-progress').style.display = tab==='progress' ? 'block' : 'none';
+  if(tab==='study') renderStudy();
+  if(tab==='write') { writeIndex = pickNextWriteIndex(); renderWrite(); }
+  if(tab==='progress') renderGrid();
+}
+
+/* ---------------- HOME STATS ---------------- */
+function refreshHomeStats(){
+  ['hiragana','katakana'].forEach(set=>{
+    const arr = SETS[set];
+    let mastered = 0;
+    arr.forEach(item=>{ if(masteryLevel(getEntry(set,item.c).reps)===2) mastered++; });
+    document.getElementById('stat-'+set).textContent = mastered+" / "+arr.length+" dominados";
+    document.getElementById('bar-'+set).style.width = Math.round(mastered/arr.length*100)+"%";
+  });
+}
+
+/* ---------------- STUDY (flashcards) ---------------- */
+function renderStudy(){
+  flipped = false;
+  const arr = SETS[currentSet];
+  const item = arr[studyIndex];
+  document.getElementById('fc-front').textContent = item.c;
+  document.getElementById('fc-front').className = 'big-kana jp';
+  document.getElementById('fc-hint').textContent = 'Toca para ver el nombre';
+  document.getElementById('study-progress').textContent = (studyIndex+1)+" / "+arr.length;
+  const card = document.getElementById('flashcard');
+  card.innerHTML = '<div class="big-kana jp" id="fc-front">'+item.c+'</div><div class="hint" id="fc-hint">Toca para ver el nombre</div>';
+}
+function flipCard(){
+  const arr = SETS[currentSet];
+  const item = arr[studyIndex];
+  const card = document.getElementById('flashcard');
+  flipped = !flipped;
+  if(flipped){
+    card.innerHTML = '<div class="romaji-back">'+item.r+'</div><div class="mnemonic">'+item.m+'</div>';
+  } else {
+    card.innerHTML = '<div class="big-kana jp" id="fc-front">'+item.c+'</div><div class="hint" id="fc-hint">Toca para ver el nombre</div>';
+  }
+}
+function studyNext(knew){
+  const arr = SETS[currentSet];
+  const item = arr[studyIndex];
+  const entry = getEntry(currentSet, item.c);
+  entry.known = knew;
+  saveProgress(progress);
+  studyIndex = (studyIndex+1) % arr.length;
+  renderStudy();
+}
+
+/* ---------------- WRITE (planas) ---------------- */
+function pickNextWriteIndex(){
+  const arr = SETS[currentSet];
+  // prioritize characters with fewer reps
+  let idx = 0, minReps = Infinity;
+  arr.forEach((item,i)=>{
+    const reps = getEntry(currentSet,item.c).reps;
+    if(reps < minReps){ minReps = reps; idx = i; }
+  });
+  return idx;
+}
+let ctx, drawing=false, lastX=0, lastY=0;
+function setupCanvas(){
+  const canvas = document.getElementById('draw-canvas');
+  const frame = document.querySelector('.canvas-frame');
+  const size = frame.clientWidth;
+  canvas.width = size; canvas.height = size;
+  ctx = canvas.getContext('2d');
+  ctx.lineWidth = 10;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#2B4570';
+
+  function pos(e){
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return {x: t.clientX-rect.left, y: t.clientY-rect.top};
+  }
+  function start(e){ e.preventDefault(); drawing=true; const p=pos(e); lastX=p.x; lastY=p.y; }
+  function move(e){
+    if(!drawing) return; e.preventDefault();
+    const p = pos(e);
+    ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(p.x,p.y); ctx.stroke();
+    lastX=p.x; lastY=p.y;
+  }
+  function end(e){ drawing=false; }
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+function clearCanvas(){
+  if(ctx) ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
+}
+function renderGuide(){
+  const arr = SETS[currentSet];
+  const item = arr[writeIndex];
+  const entry = getEntry(currentSet, item.c);
+  const showGuide = document.getElementById('guide-toggle').checked;
+  const op = showGuide ? guideOpacity(entry.reps) : 0;
+  const guide = document.getElementById('guide-char');
+  guide.textContent = item.c;
+  guide.style.opacity = op;
+}
+function renderWrite(){
+  const arr = SETS[currentSet];
+  const item = arr[writeIndex];
+  const entry = getEntry(currentSet, item.c);
+  document.getElementById('write-romaji').textContent = item.r;
+  document.getElementById('write-mnemonic').textContent = item.m;
+  const lvl = masteryLevel(entry.reps);
+  const label = lvl===2 ? "Dominado ("+entry.reps+" repeticiones)" : lvl===1 ? "Practicando ("+entry.reps+" repeticiones)" : entry.reps+" repeticiones";
+  document.getElementById('mastery-tag').textContent = label;
+  if(!ctx) setupCanvas();
+  clearCanvas();
+  renderGuide();
+}
+function markDone(){
+  const arr = SETS[currentSet];
+  const item = arr[writeIndex];
+  const entry = getEntry(currentSet, item.c);
+  entry.reps += 1;
+  saveProgress(progress);
+  writeIndex = pickNextWriteIndex();
+  renderWrite();
+}
+
+/* ---------------- PROGRESS GRID ---------------- */
+function renderGrid(){
+  const arr = SETS[currentSet];
+  const grid = document.getElementById('kgrid');
+  grid.innerHTML = '';
+  arr.forEach((item, i)=>{
+    const entry = getEntry(currentSet, item.c);
+    const lvl = masteryLevel(entry.reps);
+    const cell = document.createElement('div');
+    cell.className = 'kcell jp l'+lvl;
+    cell.textContent = item.c;
+    cell.title = item.r;
+    cell.addEventListener('click', ()=>{
+      writeIndex = i;
+      switchTab('write');
+    });
+    grid.appendChild(cell);
+  });
+}
+
+/* ---------------- INIT ---------------- */
+refreshHomeStats();
+window.addEventListener('resize', ()=>{ if(ctx) setupCanvas(); renderGuide(); });
+
+/* ---------------- PWA: service worker ---------------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
