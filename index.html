@@ -175,6 +175,69 @@
   }
   nav.bottom button.active{color:var(--indigo);}
   nav.bottom button .ic{font-size:17px;}
+
+  /* GRAMMAR MODULE */
+  .lesson-card{
+    background:var(--paper-deep); border:1px solid var(--line); border-radius:12px;
+    padding:16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; cursor:pointer;
+  }
+  .lesson-card.locked{opacity:.5; cursor:default;}
+  .lesson-num{
+    width:34px; height:34px; border-radius:50%; background:var(--indigo); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;
+  }
+  .lesson-card.locked .lesson-num{background:var(--line);}
+  .lesson-info .lname{font-size:14.5px; font-weight:700;}
+  .lesson-info .ltopic{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+  .vocab-row{
+    display:flex; align-items:center; gap:10px; padding:12px 4px; border-bottom:1px solid var(--line);
+  }
+  .vocab-row .vjp{font-family:'Noto Sans JP',sans-serif; font-size:22px; min-width:78px;}
+  .vocab-row .vinfo{flex:1;}
+  .vocab-row .vromaji{font-size:12px; color:var(--indigo); font-weight:700;}
+  .vocab-row .ves{font-size:13.5px; color:var(--ink-soft);}
+
+  .dialogue-line{
+    display:flex; gap:10px; margin-bottom:14px; align-items:flex-start;
+  }
+  .dialogue-line .dspeaker{
+    width:26px; height:26px; border-radius:50%; background:var(--indigo); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; margin-top:2px;
+  }
+  .dialogue-bubble{
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 14px; flex:1;
+  }
+  .dialogue-bubble .djp{font-family:'Noto Sans JP',sans-serif; font-size:16.5px;}
+  .dialogue-bubble .dtrans{font-size:12px; color:var(--ink-soft); margin-top:4px; display:none;}
+  .dialogue-bubble.show .dtrans{display:block;}
+  .dialogue-bubble .dbtns{display:flex; gap:8px; margin-top:6px;}
+  .dialogue-bubble .dbtns button{
+    border:none; background:none; color:var(--indigo); font-size:11px; font-weight:700; cursor:pointer; padding:0;
+  }
+
+  .grammar-block{
+    margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--line);
+  }
+  .grammar-block .gpoint{font-size:15px; font-weight:700; color:var(--indigo); margin-bottom:6px;}
+  .grammar-block .gexpl{font-size:13.5px; line-height:1.6; color:var(--ink); margin-bottom:10px;}
+  .gexample{
+    background:var(--paper-deep); border-radius:8px; padding:8px 12px; margin-bottom:6px;
+  }
+  .gexample .gjp{font-family:'Noto Sans JP',sans-serif; font-size:15px;}
+  .gexample .ges{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+  .quiz-progress{font-size:12px; color:var(--ink-soft); margin-bottom:10px; text-align:center;}
+  .quiz-q{font-size:16px; font-weight:700; margin-bottom:16px; text-align:center; font-family:'Noto Sans JP',sans-serif;}
+  .quiz-opt{
+    display:block; width:100%; text-align:left; padding:13px 16px; margin-bottom:10px; border-radius:10px;
+    border:1px solid var(--line); background:#fff; font-family:inherit; font-size:14px; cursor:pointer;
+  }
+  .quiz-opt.correct{background:#DCE9DC; border-color:#5B8A5B;}
+  .quiz-opt.wrong{background:#F2DCD8; border-color:var(--seal);}
+  .quiz-explain{font-size:13px; color:var(--ink-soft); margin-top:10px; padding:10px; background:var(--paper-deep); border-radius:8px;}
+  .quiz-result{text-align:center; padding:30px 20px;}
+  .quiz-result .score{font-size:38px; font-weight:700; color:var(--indigo); margin-bottom:8px;}
 </style>
 </head>
 <body>
@@ -222,6 +285,14 @@
         <div class="name">Kanji</div>
         <div class="stat" id="stat-kanji">0 / 100 dominados</div>
         <div class="bar"><div class="bar-fill" id="bar-kanji" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="set-card" id="grammar-card">
+      <div class="glyph jp">文</div>
+      <div class="info">
+        <div class="name">Gramática y vocabulario</div>
+        <div class="stat" id="stat-grammar">Lección 1 de 15 · N5</div>
+        <div class="bar"><div class="bar-fill" id="bar-grammar" style="width:0%"></div></div>
       </div>
     </div>
   </section>
@@ -400,6 +471,35 @@
         <span><span class="dot" style="background:var(--indigo);"></span>Dominado</span>
       </div>
     </div>
+  </section>
+
+  <!-- GRAMMAR: lesson list -->
+  <section id="screen-grammar" class="screen">
+    <div class="back-row">
+      <span class="back-btn" onclick="goHome()">‹ Inicio</span>
+      <span class="set-heading">Gramática y vocabulario</span>
+    </div>
+    <p class="intro-note">Cada lección sigue el método V.I.V.A.: Vocabulario, Interacción (diálogo), Visualización (gramática) y Aplicación (práctica). Empezamos por N5, la base de la B1.</p>
+    <div id="lesson-list"></div>
+  </section>
+
+  <!-- LESSON DETAIL -->
+  <section id="screen-lesson" class="screen">
+    <div class="back-row">
+      <span class="back-btn" onclick="backToLessonList()">‹ Lecciones</span>
+      <span class="set-heading" id="lesson-heading">Lección 1</span>
+    </div>
+    <div class="tabbar">
+      <div class="tab active" data-tab="lvocab" onclick="switchLessonTab('lvocab')">Vocab.</div>
+      <div class="tab" data-tab="linter" onclick="switchLessonTab('linter')">Interac.</div>
+      <div class="tab" data-tab="lvisual" onclick="switchLessonTab('lvisual')">Visual.</div>
+      <div class="tab" data-tab="laplica" onclick="switchLessonTab('laplica')">Aplica.</div>
+    </div>
+
+    <div id="ltab-lvocab" class="tabpane"></div>
+    <div id="ltab-linter" class="tabpane" style="display:none;"></div>
+    <div id="ltab-lvisual" class="tabpane" style="display:none;"></div>
+    <div id="ltab-laplica" class="tabpane" style="display:none;"></div>
   </section>
 
 </main>
@@ -851,6 +951,82 @@ function kanjiSpeakText(item){
   return item.on.split('・')[0];
 }
 
+/* ---------------- GRAMÁTICA Y VOCABULARIO (lecciones N5→N4) ---------------- */
+// Mapa completo de lecciones para mantener el hilo lógico del curso (N5 primero, base de la B1).
+// Solo la Lección 1 tiene contenido completo por ahora; las demás se construyen progresivamente.
+const LESSON_MAP = [
+ {n:1, topic:"Presentarse: です、これ・それ・あれ、は"},
+ {n:2, topic:"あります・います, posición (に・で), números y contadores"},
+ {n:3, topic:"Adjetivos い/な, gustos con が"},
+ {n:4, topic:"Verbos: forma ます (presente/futuro)"},
+ {n:5, topic:"Pasado ました, expresiones de tiempo"},
+ {n:6, topic:"Partícula を, verbos de acción cotidiana"},
+ {n:7, topic:"へ・に, direcciones y transporte"},
+ {n:8, topic:"Forma て, ています (continuo)"},
+ {n:9, topic:"てください, てもいいです (peticiones y permiso)"},
+ {n:10, topic:"Forma simple (diccionario y negativa)"},
+ {n:11, topic:"Adjetivos en pasado y negativo"},
+ {n:12, topic:"Comparaciones: より, ほう"},
+ {n:13, topic:"Contadores y cantidades"},
+ {n:14, topic:"Volitivo ましょう, sugerencias"},
+ {n:15, topic:"Repaso N5 y examen corto"}
+];
+
+const LESSONS = {
+ 1: {
+  title:"Presentarse: です、これ・それ・あれ、は",
+  vocab:[
+   {jp:"わたし", romaji:"watashi", es:"yo"},
+   {jp:"あなた", romaji:"anata", es:"tú / usted"},
+   {jp:"なまえ", romaji:"namae", es:"nombre"},
+   {jp:"がくせい", romaji:"gakusei", es:"estudiante"},
+   {jp:"せんせい", romaji:"sensei", es:"maestro/a"},
+   {jp:"かいしゃいん", romaji:"kaishain", es:"empleado/a de empresa"},
+   {jp:"がいこくじん", romaji:"gaikokujin", es:"extranjero/a"},
+   {jp:"にほんじん", romaji:"nihonjin", es:"japonés/a (persona)"},
+   {jp:"これ", romaji:"kore", es:"esto"},
+   {jp:"それ", romaji:"sore", es:"eso"},
+   {jp:"あれ", romaji:"are", es:"aquello"},
+   {jp:"はい", romaji:"hai", es:"sí"},
+   {jp:"いいえ", romaji:"iie", es:"no"},
+   {jp:"そうです", romaji:"sou desu", es:"así es"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"はじめまして。", romaji:"Hajimemashite.", es:"Mucho gusto."},
+   {sp:"A", jp:"わたしはピナです。", romaji:"Watashi wa Pina desu.", es:"Yo soy Pina."},
+   {sp:"A", jp:"がくせいです。", romaji:"Gakusei desu.", es:"Soy estudiante."},
+   {sp:"A", jp:"よろしくおねがいします。", romaji:"Yoroshiku onegaishimasu.", es:"Un placer conocerte (por favor, trátame bien)."},
+   {sp:"B", jp:"はじめまして。ピナさんですね。", romaji:"Hajimemashite. Pina-san desu ne.", es:"Mucho gusto. Usted es Pina, ¿verdad?"},
+   {sp:"B", jp:"わたしはたなかです。かいしゃいんです。", romaji:"Watashi wa Tanaka desu. Kaishain desu.", es:"Yo soy Tanaka. Soy empleado de empresa."},
+   {sp:"B", jp:"よろしくおねがいします。", romaji:"Yoroshiku onegaishimasu.", es:"Un placer conocerte."}
+  ],
+  grammar:[
+   {point:"は (partícula de tema, se pronuncia 'wa')", expl:"Marca de qué o quién estamos hablando. Estructura: [tema]は[información]です。", examples:[
+     {jp:"わたしは学生です。", es:"(Hablando de mí,) soy estudiante."},
+     {jp:"あなたは先生ですか。", es:"¿Usted es maestro/a?"}
+   ]},
+   {point:"です", expl:"Verbo 'ser/estar' neutral-formal. No cambia según la persona (soy/eres/es/somos/son). Negativo: ではありません (formal) o じゃありません (más natural en el habla).", examples:[
+     {jp:"がくせいです。", es:"Soy estudiante."},
+     {jp:"がくせいではありません。", es:"No soy estudiante."}
+   ]},
+   {point:"これ・それ・あれ", expl:"'Esto / eso / aquello', según la distancia respecto al hablante: これ está cerca de mí, それ cerca de la otra persona, あれ lejos de ambos.", examples:[
+     {jp:"これは本です。", es:"Esto es un libro."},
+     {jp:"あれはなんですか。", es:"¿Qué es aquello?"}
+   ]},
+   {point:"Pregunta con か", expl:"Agregar か al final de la oración la convierte en pregunta, sin cambiar el orden de las palabras ni usar signo de interrogación en japonés formal.", examples:[
+     {jp:"たなかさんですか。", es:"¿Es usted el señor Tanaka?"}
+   ]}
+  ],
+  quiz:[
+   {q:"わたし___がくせいです。 ¿Qué partícula va en el espacio?", options:["は","を","に","で"], answer:0, explain:"は marca el tema de la oración: 'Hablando de mí, soy estudiante'."},
+   {q:"¿Cómo dices 'No soy estudiante'?", options:["がくせいです","がくせいではありません","がくせいですか","がくせいこれ"], answer:1, explain:"です se niega con ではありません (o じゃありません, más informal)."},
+   {q:"¿Cuál usarías para algo lejos de ti Y de la otra persona?", options:["これ","それ","あれ","この"], answer:2, explain:"あれ se usa para lo que está lejos de ambos hablantes."},
+   {q:"¿Cómo conviertes 'たなかさんです' en pregunta?", options:["Agregando か al final","Agregando は al final","Cambiando el orden","Agregando ちがいます"], answer:0, explain:"En japonés, か al final de la oración es la marca de pregunta."},
+   {q:"Traduce: はじめまして", options:["Buenos días","Mucho gusto (al conocer a alguien)","Adiós","Gracias"], answer:1, explain:"はじめまして se usa exclusivamente la primera vez que conoces a alguien."}
+  ]
+ }
+};
+
 /* ---------------- AUDIO (pronunciación) ---------------- */
 let jaVoice = null;
 function loadJaVoice(){
@@ -907,6 +1083,8 @@ function hideAllScreens(){
   document.getElementById('screen-set').classList.remove('active');
   document.getElementById('screen-words').classList.remove('active');
   document.getElementById('screen-kanji').classList.remove('active');
+  document.getElementById('screen-grammar').classList.remove('active');
+  document.getElementById('screen-lesson').classList.remove('active');
 }
 function goHome(){
   hideAllScreens();
@@ -915,6 +1093,7 @@ function goHome(){
   refreshHomeStats();
   refreshWordStats();
   refreshKanjiStats();
+  refreshGrammarStats();
 }
 function setActiveNav(id){
   ['nav-home','nav-hira','nav-kata'].forEach(n=>document.getElementById(n).classList.remove('active'));
@@ -942,6 +1121,17 @@ function openKanji(){
   hideAllScreens();
   document.getElementById('screen-kanji').classList.add('active');
   switchKanjiTab('kstudy');
+}
+document.getElementById('grammar-card').addEventListener('click', openGrammar);
+function openGrammar(){
+  hideAllScreens();
+  document.getElementById('screen-grammar').classList.add('active');
+  renderLessonList();
+}
+function backToLessonList(){
+  hideAllScreens();
+  document.getElementById('screen-grammar').classList.add('active');
+  renderLessonList();
 }
 
 function switchTab(tab){
@@ -1336,6 +1526,165 @@ function refreshKanjiStats(){
   document.getElementById('bar-kanji').style.width = Math.round(mastered/KANJI.length*100)+"%";
 }
 
+/* ---------------- GRAMÁTICA: progreso de lecciones ---------------- */
+const LESSON_STORE_KEY = "tenarai_lessons_v1";
+function loadLessonProgress(){
+  try{ return JSON.parse(localStorage.getItem(LESSON_STORE_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveLessonProgress(p){ localStorage.setItem(LESSON_STORE_KEY, JSON.stringify(p)); }
+let lessonProgress = loadLessonProgress(); // { "1": {quizScore:4, quizTotal:5, completed:true} }
+function getLessonEntry(n){
+  if(!lessonProgress[n]) lessonProgress[n] = {completed:false, quizScore:0, quizTotal:0};
+  return lessonProgress[n];
+}
+function isLessonUnlocked(n){
+  if(n===1) return true;
+  return !!getLessonEntry(n-1).completed;
+}
+
+function refreshGrammarStats(){
+  const doneCount = LESSON_MAP.filter(l=>getLessonEntry(l.n).completed).length;
+  document.getElementById('stat-grammar').textContent = "Lección "+Math.min(doneCount+1,15)+" de 15 · N5";
+  document.getElementById('bar-grammar').style.width = Math.round(doneCount/15*100)+"%";
+}
+
+function renderLessonList(){
+  const list = document.getElementById('lesson-list');
+  list.innerHTML = '';
+  LESSON_MAP.forEach(l=>{
+    const hasContent = !!LESSONS[l.n];
+    const unlocked = isLessonUnlocked(l.n) && hasContent;
+    const entry = getLessonEntry(l.n);
+    const card = document.createElement('div');
+    card.className = 'lesson-card' + (unlocked ? '' : ' locked');
+    const badge = entry.completed ? '✓' : l.n;
+    card.innerHTML = '<div class="lesson-num">'+badge+'</div><div class="lesson-info"><div class="lname">Lección '+l.n+'</div><div class="ltopic">'+l.topic+(hasContent ? '' : ' · próximamente')+'</div></div>';
+    if(unlocked){
+      card.addEventListener('click', ()=> openLesson(l.n));
+    }
+    list.appendChild(card);
+  });
+  const doneCount = LESSON_MAP.filter(l=>getLessonEntry(l.n).completed).length;
+  document.getElementById('stat-grammar').textContent = "Lección "+Math.min(doneCount+1,15)+" de 15 · N5";
+  document.getElementById('bar-grammar').style.width = Math.round(doneCount/15*100)+"%";
+}
+
+let currentLesson = 1;
+function openLesson(n){
+  currentLesson = n;
+  hideAllScreens();
+  document.getElementById('screen-lesson').classList.add('active');
+  document.getElementById('lesson-heading').textContent = "Lección "+n;
+  switchLessonTab('lvocab');
+}
+function switchLessonTab(tab){
+  document.querySelectorAll('#screen-lesson .tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  ['lvocab','linter','lvisual','laplica'].forEach(t=>{
+    document.getElementById('ltab-'+t).style.display = t===tab ? 'block' : 'none';
+  });
+  if(tab==='lvocab') renderLessonVocab();
+  if(tab==='linter') renderLessonDialogue();
+  if(tab==='lvisual') renderLessonGrammar();
+  if(tab==='laplica') renderLessonQuiz();
+}
+
+function renderLessonVocab(){
+  const lesson = LESSONS[currentLesson];
+  const wrap = document.getElementById('ltab-lvocab');
+  wrap.innerHTML = '';
+  lesson.vocab.forEach(v=>{
+    const row = document.createElement('div');
+    row.className = 'vocab-row';
+    row.innerHTML = '<div class="vjp jp">'+v.jp+'</div><div class="vinfo"><div class="vromaji">'+v.romaji+'</div><div class="ves">'+v.es+'</div></div><button class="speaker-btn-inline" onclick="speak(\''+v.jp+'\')">🔊</button>';
+    wrap.appendChild(row);
+  });
+}
+
+function renderLessonDialogue(){
+  const lesson = LESSONS[currentLesson];
+  const wrap = document.getElementById('ltab-linter');
+  wrap.innerHTML = '';
+  lesson.dialogue.forEach((d,i)=>{
+    const line = document.createElement('div');
+    line.className = 'dialogue-line';
+    line.innerHTML = '<div class="dspeaker">'+d.sp+'</div>'
+      + '<div class="dialogue-bubble" id="dbubble-'+i+'">'
+      + '<div class="djp jp">'+d.jp+'</div>'
+      + '<div class="dtrans">'+d.romaji+' — '+d.es+'</div>'
+      + '<div class="dbtns"><button onclick="toggleDialogueTrans('+i+')">Ver traducción</button><button onclick="speak(\''+d.jp+'\')">🔊 Escuchar</button></div>'
+      + '</div>';
+    wrap.appendChild(line);
+  });
+}
+function toggleDialogueTrans(i){
+  document.getElementById('dbubble-'+i).classList.toggle('show');
+}
+
+function renderLessonGrammar(){
+  const lesson = LESSONS[currentLesson];
+  const wrap = document.getElementById('ltab-lvisual');
+  wrap.innerHTML = '';
+  lesson.grammar.forEach(g=>{
+    const block = document.createElement('div');
+    block.className = 'grammar-block';
+    let examplesHtml = g.examples.map(ex=>'<div class="gexample"><div class="gjp jp">'+ex.jp+'</div><div class="ges">'+ex.es+'</div></div>').join('');
+    block.innerHTML = '<div class="gpoint">'+g.point+'</div><div class="gexpl">'+g.expl+'</div>'+examplesHtml;
+    wrap.appendChild(block);
+  });
+}
+
+let quizIdx = 0;
+let quizScore = 0;
+let quizAnswered = false;
+function renderLessonQuiz(){
+  quizIdx = 0; quizScore = 0;
+  showQuizQuestion();
+}
+function showQuizQuestion(){
+  const lesson = LESSONS[currentLesson];
+  const wrap = document.getElementById('ltab-laplica');
+  if(quizIdx >= lesson.quiz.length){
+    const pct = Math.round(quizScore/lesson.quiz.length*100);
+    const entry = getLessonEntry(currentLesson);
+    entry.quizScore = quizScore; entry.quizTotal = lesson.quiz.length;
+    if(pct>=60){ entry.completed = true; }
+    saveLessonProgress(lessonProgress);
+    wrap.innerHTML = '<div class="quiz-result"><div class="score">'+quizScore+' / '+lesson.quiz.length+'</div>'
+      + '<div>'+(pct>=60 ? '¡Bien hecho! Lección completada 🎉' : 'Casi — repásala y vuelve a intentar.')+'</div>'
+      + '<div class="write-controls" style="margin-top:20px;"><button onclick="renderLessonQuiz()">↻ Reintentar</button><button class="done" onclick="backToLessonList()">Ver lecciones</button></div></div>';
+    return;
+  }
+  quizAnswered = false;
+  const q = lesson.quiz[quizIdx];
+  wrap.innerHTML = '<div class="quiz-progress">Pregunta '+(quizIdx+1)+' / '+lesson.quiz.length+'</div>'
+    + '<div class="quiz-q">'+q.q+'</div>'
+    + '<div id="quiz-opts"></div>'
+    + '<div id="quiz-explain-wrap"></div>';
+  const optsWrap = document.getElementById('quiz-opts');
+  q.options.forEach((opt,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt jp';
+    btn.textContent = opt;
+    btn.addEventListener('click', ()=> answerQuiz(i));
+    optsWrap.appendChild(btn);
+  });
+}
+function answerQuiz(i){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const lesson = LESSONS[currentLesson];
+  const q = lesson.quiz[quizIdx];
+  const opts = document.querySelectorAll('#quiz-opts .quiz-opt');
+  opts[q.answer].classList.add('correct');
+  if(i!==q.answer) opts[i].classList.add('wrong');
+  if(i===q.answer) quizScore++;
+  document.getElementById('quiz-explain-wrap').innerHTML = '<div class="quiz-explain">'+q.explain+'</div><div class="write-controls" style="margin-top:14px;"><button class="done" onclick="nextQuizQuestion()">Siguiente ›</button></div>';
+}
+function nextQuizQuestion(){
+  quizIdx++;
+  showQuizQuestion();
+}
+
 /* ---------------- PROGRESS GRID ---------------- */
 function renderGrid(){
   const arr = SETS[currentSet];
@@ -1360,6 +1709,7 @@ function renderGrid(){
 refreshHomeStats();
 refreshWordStats();
 refreshKanjiStats();
+refreshGrammarStats();
 window.addEventListener('resize', ()=>{
   if(ctx) setupCanvas(); renderGuide();
   if(wctx) setupWordCanvas(); renderWordGuide();
