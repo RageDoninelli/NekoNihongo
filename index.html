@@ -220,7 +220,7 @@
       <div class="glyph jp">漢</div>
       <div class="info">
         <div class="name">Kanji</div>
-        <div class="stat" id="stat-kanji">0 / 25 dominados</div>
+        <div class="stat" id="stat-kanji">0 / 100 dominados</div>
         <div class="bar"><div class="bar-fill" id="bar-kanji" style="width:0%"></div></div>
       </div>
     </div>
@@ -357,7 +357,7 @@
     <!-- ESTUDIAR -->
     <div id="ktab-kstudy" class="tabpane">
       <div class="flash-wrap">
-        <div class="flash-progress" id="kstudy-progress">1 / 25</div>
+        <div class="flash-progress" id="kstudy-progress">1 / 100</div>
         <div class="flashcard" id="kanji-flashcard" onclick="flipKanjiCard()"></div>
         <div class="flash-actions">
           <button class="review" onclick="kanjiNext(false)">🔁 Repasar</button>
@@ -755,7 +755,82 @@ const KANJI = [
  {c:"上", on:"ジョウ", kun:"うえ・あ(げる)", es:"arriba", m:"Una línea base con un trazo que sube, señalando hacia arriba."},
  {c:"下", on:"カ・ゲ", kun:"した・さ(げる)", es:"abajo", m:"Una línea base con un trazo que baja, señalando hacia abajo."},
  {c:"左", on:"サ", kun:"ひだり", es:"izquierda", m:"Una mano extendida hacia la izquierda sosteniendo una herramienta."},
- {c:"右", on:"ウ・ユウ", kun:"みぎ", es:"derecha", m:"Una mano extendida hacia la derecha, cerca de una boca."}
+ {c:"右", on:"ウ・ユウ", kun:"みぎ", es:"derecha", m:"Una mano extendida hacia la derecha, cerca de una boca."},
+ {c:"百", on:"ヒャク", kun:"—", es:"cien", m:"白 (blanco) con una raya arriba: cien copos de nieve blancos cayendo."},
+ {c:"千", on:"セン", kun:"—", es:"mil", m:"Una plantita con el tallo doblado: mil granos en una sola espiga."},
+ {c:"万", on:"マン・バン", kun:"—", es:"diez mil", m:"Una línea curva como una bandera ondeando entre una multitud de diez mil."},
+ {c:"円", on:"エン", kun:"—", es:"yen (moneda)", m:"Un marco con una cruz adentro, como una moneda redonda de yen."},
+ {c:"年", on:"ネン", kun:"とし", es:"año", m:"Una persona cargando la cosecha sobre la espalda: el ciclo de un año agrícola."},
+ {c:"時", on:"ジ", kun:"とき", es:"hora / tiempo", m:"El sol (日) sobre un templo (寺): las campanas marcaban la hora."},
+ {c:"分", on:"フン・ブン", kun:"わ(ける)", es:"minuto / parte", m:"Un cuchillo partiendo algo en dos: dividir el tiempo en minutos."},
+ {c:"半", on:"ハン", kun:"なか(ば)", es:"mitad", m:"Algo partido por la mitad con una raya arriba marcando el corte."},
+ {c:"今", on:"コン", kun:"いま", es:"ahora", m:"Una persona agachada, deteniéndose justo en este momento."},
+ {c:"何", on:"カ", kun:"なに・なん", es:"qué", m:"Una persona con un signo pegado al lado, como preguntando '¿qué es esto?'."},
+ {c:"女", on:"ジョ", kun:"おんな", es:"mujer", m:"Una persona sentada con las piernas cruzadas y los brazos entrelazados con gracia."},
+ {c:"男", on:"ダン", kun:"おとこ", es:"hombre", m:"Un campo (田) con fuerza (力) debajo: un hombre trabajando la tierra."},
+ {c:"子", on:"シ", kun:"こ", es:"niño / niña", m:"Un bebé envuelto en una manta, con los bracitos hacia afuera."},
+ {c:"父", on:"フ", kun:"ちち", es:"padre", m:"Una persona sosteniendo un hacha con las dos manos: quien provee y protege."},
+ {c:"母", on:"ボ", kun:"はは", es:"madre", m:"Una figura con dos puntos que representan el cuidado de una madre."},
+ {c:"友", on:"ユウ", kun:"とも", es:"amigo", m:"Dos manos entrelazadas, dándose la mano como amigos."},
+ {c:"私", on:"シ", kun:"わたし", es:"yo", m:"Un grano de arroz (禾) guardado en privado: 'esto es mío, yo lo guardo'."},
+ {c:"先", on:"セン", kun:"さき", es:"antes / adelante", m:"Una persona con algo saliendo sobre la cabeza, yendo primero, adelante de los demás."},
+ {c:"生", on:"セイ・ショウ", kun:"い(きる)・う(まれる)", es:"vida / nacer", m:"Un brote saliendo de la tierra, como una planta recién nacida."},
+ {c:"名", on:"メイ・ミョウ", kun:"な", es:"nombre", m:"De noche (夕), como no se ve bien, dices tu nombre (口) en voz alta."},
+ {c:"前", on:"ゼン", kun:"まえ", es:"antes / frente", m:"Un barco con su quilla avanzando siempre hacia adelante."},
+ {c:"目", on:"モク", kun:"め", es:"ojo", m:"Un ojo dibujado en forma rectangular con la pupila al centro."},
+ {c:"耳", on:"ジ", kun:"みみ", es:"oreja", m:"El contorno de una oreja humana visto de perfil."},
+ {c:"口", on:"コウ", kun:"くち", es:"boca", m:"Un cuadrado simple, como una boca abierta."},
+ {c:"手", on:"シュ", kun:"て", es:"mano", m:"Una mano con los dedos extendidos hacia arriba."},
+ {c:"足", on:"ソク", kun:"あし", es:"pie / pierna", m:"Una pierna doblada que termina en un pie apoyado."},
+ {c:"山", on:"サン", kun:"やま", es:"montaña", m:"Tres picos de montaña, el del medio más alto que los otros dos."},
+ {c:"川", on:"セン", kun:"かわ", es:"río", m:"Tres líneas verticales fluyendo, como una corriente de agua."},
+ {c:"天", on:"テン", kun:"あめ・あま", es:"cielo", m:"Una persona (大) con una raya extra arriba de la cabeza, señalando el cielo."},
+ {c:"空", on:"クウ", kun:"そら・あ(く)", es:"cielo / vacío", m:"Un agujero en el techo por donde se ve el cielo vacío."},
+ {c:"気", on:"キ・ケ", kun:"—", es:"energía / aire", m:"Vapor saliendo de una olla de arroz: la energía que se libera."},
+ {c:"雨", on:"ウ", kun:"あめ", es:"lluvia", m:"Un techo con gotas de lluvia cayendo debajo."},
+ {c:"花", on:"カ", kun:"はな", es:"flor", m:"Una planta (艹) que cambia y se transforma en flor."},
+ {c:"国", on:"コク", kun:"くに", es:"país", m:"Una joya protegida dentro de una frontera: el tesoro de un país."},
+ {c:"学", on:"ガク", kun:"まな(ぶ)", es:"estudio / aprender", m:"Un techo sobre un niño (子) rodeado de ideas: la escuela donde se aprende."},
+ {c:"校", on:"コウ", kun:"—", es:"escuela (institución)", m:"Madera (木) cruzada, como los pupitres de un salón de clases."},
+ {c:"語", on:"ゴ", kun:"かた(る)", es:"idioma", m:"Palabras (言) que 'yo' uso para hablar: el idioma."},
+ {c:"店", on:"テン", kun:"みせ", es:"tienda", m:"Un techo sobre un puesto marcado: una tienda."},
+ {c:"家", on:"カ", kun:"いえ・や", es:"casa", m:"Un techo con un cerdo debajo: antiguamente, señal de un hogar establecido."},
+ {c:"車", on:"シャ", kun:"くるま", es:"carro / vehículo", m:"Las ruedas de un carro vistas desde arriba, con un eje central."},
+ {c:"電", on:"デン", kun:"—", es:"electricidad", m:"Un rayo cayendo desde la lluvia: electricidad."},
+ {c:"話", on:"ワ", kun:"はな(す)・はなし", es:"hablar / historia", m:"Palabras (言) que salen de la lengua (舌): hablar."},
+ {c:"門", on:"モン", kun:"かど", es:"puerta / portón", m:"Dos hojas de una puerta grande, como un portón doble."},
+ {c:"駅", on:"エキ", kun:"—", es:"estación de tren", m:"Antiguamente una posta donde se cambiaban caballos; hoy, una estación de tren."},
+ {c:"道", on:"ドウ", kun:"みち", es:"camino / vía", m:"Una cabeza que avanza por un camino, paso a paso."},
+ {c:"行", on:"コウ", kun:"い(く)・おこな(う)", es:"ir", m:"Un cruce de caminos visto desde arriba: por ahí se va."},
+ {c:"来", on:"ライ", kun:"く(る)・きた(る)", es:"venir", m:"Un árbol con dos personas llegando desde ambos lados: vienen hacia ti."},
+ {c:"帰", on:"キ", kun:"かえ(る)", es:"regresar", m:"Algo que vuelve siempre a su lugar de siempre: regresar a casa."},
+ {c:"入", on:"ニュウ", kun:"はい(る)・い(れる)", es:"entrar", m:"Una entrada en forma de cuña, como la punta de una flecha entrando."},
+ {c:"出", on:"シュツ", kun:"で(る)・だ(す)", es:"salir", m:"Una montaña que sobresale detrás de otra: algo que sale y se asoma."},
+ {c:"見", on:"ケン", kun:"み(る)", es:"ver", m:"Un ojo (目) sobre unas piernas: una persona que mira con atención."},
+ {c:"聞", on:"ブン", kun:"き(く)", es:"oír / preguntar", m:"Una oreja (耳) detrás de una puerta (門), escuchando lo que pasa afuera."},
+ {c:"読", on:"ドク", kun:"よ(む)", es:"leer", m:"Palabras (言) que se venden como historias: leer un libro."},
+ {c:"書", on:"ショ", kun:"か(く)", es:"escribir", m:"Una mano sosteniendo un pincel sobre un papel con líneas."},
+ {c:"食", on:"ショク", kun:"た(べる)", es:"comer", m:"Una persona sentada frente a un tazón de comida con tapa."},
+ {c:"飲", on:"イン", kun:"の(む)", es:"beber", m:"Comer (食) con la boca bien abierta para tragar un líquido: beber."},
+ {c:"買", on:"バイ", kun:"か(う)", es:"comprar", m:"Una red atrapando conchas usadas como dinero antiguamente: comprar."},
+ {c:"会", on:"カイ", kun:"あ(う)", es:"reunión / encontrarse", m:"Un techo bajo el cual varias personas se reúnen."},
+ {c:"立", on:"リツ", kun:"た(つ)", es:"pararse", m:"Una persona de pie con los brazos extendidos, firme sobre el suelo."},
+ {c:"休", on:"キュウ", kun:"やす(む)", es:"descansar", m:"Una persona (亻) recostada junto a un árbol (木): descansando a la sombra."},
+ {c:"高", on:"コウ", kun:"たか(い)", es:"alto / caro", m:"Una torre alta con un techo puntiagudo y una base ancha."},
+ {c:"安", on:"アン", kun:"やす(い)", es:"barato / seguro", m:"Una mujer (女) bajo un techo (宀): seguridad en el hogar, y por eso también barato."},
+ {c:"新", on:"シン", kun:"あたら(しい)", es:"nuevo", m:"Un hacha cortando madera fresca recién talada: algo nuevo."},
+ {c:"古", on:"コ", kun:"ふる(い)", es:"viejo", m:"Una boca (口) bajo diez (十): algo contado por diez generaciones, muy viejo."},
+ {c:"長", on:"チョウ", kun:"なが(い)", es:"largo / jefe", m:"El cabello largo de una persona anciana apoyada en un bastón."},
+ {c:"魚", on:"ギョ", kun:"さかな", es:"pez", m:"Un pez visto de perfil: cabeza, cuerpo con escamas y cola con aletas."},
+ {c:"肉", on:"ニク", kun:"—", es:"carne", m:"Un corte de carne con vetas de grasa, visto en un mostrador."},
+ {c:"米", on:"ベイ", kun:"こめ", es:"arroz", m:"Granos de arroz cayendo desde un cruce central, esparciéndose."},
+ {c:"茶", on:"チャ", kun:"—", es:"té", m:"Una planta (艹) recogida y secada como si fuera de un árbol: las hojas de té."},
+ {c:"本", on:"ホン", kun:"もと", es:"libro / origen", m:"Un árbol (木) con una raya extra en la base, marcando la raíz: el origen."},
+ {c:"週", on:"シュウ", kun:"—", es:"semana", m:"Caminar dando una vuelta completa: el ciclo de una semana."},
+ {c:"毎", on:"マイ", kun:"—", es:"cada", m:"Una madre repitiendo la misma rutina cada día."},
+ {c:"間", on:"カン", kun:"あいだ・ま", es:"entre / intervalo", m:"El sol (日) que se cuela por la rendija de una puerta (門): el espacio entre dos cosas."},
+ {c:"好", on:"コウ", kun:"す(き)・この(む)", es:"gustar", m:"Una madre (女) con su hijo (子) al lado: el cariño, lo que te gusta."},
+ {c:"事", on:"ジ", kun:"こと", es:"asunto / cosa", m:"Una mano sosteniendo un mazo con una línea vertical: un asunto que requiere atención."}
 ];
 
 const KANJI_STORE_KEY = "tenarai_kanji_v1";
