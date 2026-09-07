@@ -1175,6 +1175,55 @@ const LESSONS = {
    {q:"¿Cuál es la forma ます de 'ver'?", options:["みます","みません","みる","み"], answer:0, explain:"みます es la forma ます (presente/futuro afirmativo) del verbo 'ver'."},
    {q:"Traduce: それから", options:["Antes","Después / luego","Nunca","Siempre"], answer:1, explain:"それから conecta dos acciones en secuencia: 'y después...'."}
   ]
+ },
+ 5: {
+  title:"Pasado ました, expresiones de tiempo",
+  vocab:[
+   {jp:"きのう", romaji:"kinou", es:"ayer"},
+   {jp:"きょう", romaji:"kyou", es:"hoy"},
+   {jp:"あした", romaji:"ashita", es:"mañana"},
+   {jp:"まいにち", romaji:"mainichi", es:"todos los días"},
+   {jp:"せんしゅう", romaji:"senshuu", es:"la semana pasada"},
+   {jp:"こんしゅう", romaji:"konshuu", es:"esta semana"},
+   {jp:"らいしゅう", romaji:"raishuu", es:"la próxima semana"},
+   {jp:"なんじ", romaji:"nanji", es:"qué hora"},
+   {jp:"ごぜん", romaji:"gozen", es:"a.m. / por la mañana"},
+   {jp:"ごご", romaji:"gogo", es:"p.m. / por la tarde"},
+   {jp:"はん", romaji:"han", es:"y media"},
+   {jp:"じかん", romaji:"jikan", es:"hora / tiempo (duración)"},
+   {jp:"おきます", romaji:"okimasu", es:"levantarse"},
+   {jp:"ねます", romaji:"nemasu", es:"dormirse / acostarse"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"きのう、なにをしましたか。", romaji:"Kinou, nani wo shimashita ka.", es:"¿Qué hiciste ayer?"},
+   {sp:"B", jp:"あさ、しちじにおきました。", romaji:"Asa, shichiji ni okimashita.", es:"Me levanté a las 7 de la mañana."},
+   {sp:"B", jp:"それから、がっこうにいきました。", romaji:"Sorekara, gakkou ni ikimashita.", es:"Después, fui a la escuela."},
+   {sp:"B", jp:"よる、じゅうじにねました。", romaji:"Yoru, juuji ni nemashita.", es:"Por la noche, me dormí a las 10."},
+   {sp:"A", jp:"そうですか。わたしもきのうべんきょうしました。", romaji:"Sou desu ka. Watashi mo kinou benkyou shimashita.", es:"Ya veo. Yo también estudié ayer."}
+  ],
+  grammar:[
+   {point:"ました (pasado afirmativo)", expl:"Se forma cambiando ます por ました. Indica que la acción ya ocurrió.", examples:[
+     {jp:"たべました。", es:"Comí."},
+     {jp:"がっこうにいきました。", es:"Fui a la escuela."}
+   ]},
+   {point:"ませんでした (pasado negativo)", expl:"Se forma cambiando ます por ませんでした.", examples:[
+     {jp:"たべませんでした。", es:"No comí."}
+   ]},
+   {point:"Expresiones de tiempo sin partícula", expl:"Palabras como きのう、きょう、あした、まいにち NO llevan partícula に cuando indican 'cuándo' en general.", examples:[
+     {jp:"きのう、べんきょうしました。", es:"Ayer, estudié. (sin partícula después de きのう)"}
+   ]},
+   {point:"なんじ + に (hora específica)", expl:"Para preguntar la hora se usa なんじですか. Al responder con una hora específica en la que ocurre una acción, se agrega に.", examples:[
+     {jp:"なんじにおきますか。", es:"¿A qué hora te levantas?"},
+     {jp:"しちじにおきます。", es:"Me levanto a las 7."}
+   ]}
+  ],
+  quiz:[
+   {q:"¿Cuál es el pasado de たべます?", options:["たべました","たべます","たべませんでした","たべる"], answer:0, explain:"El pasado afirmativo de ます es ました."},
+   {q:"¿Cuál es el negativo pasado de のみます?", options:["のみませんでした","のみました","のみません","のまなかった"], answer:0, explain:"El pasado negativo de ます es ませんでした."},
+   {q:"しちじ___おきました。 ¿Qué va en el espacio?", options:["に","を","で","は"], answer:0, explain:"Una hora específica como しちじ (las 7) lleva に."},
+   {q:"きのう___べんきょうしました。 ¿Qué va en el espacio?", options:["に","で","を","ninguna partícula"], answer:3, explain:"Expresiones generales de tiempo como きのう no llevan partícula."},
+   {q:"Traduce: らいしゅう", options:["La semana pasada","Esta semana","La próxima semana","Todos los días"], answer:2, explain:"らいしゅう significa 'la próxima semana'."}
+  ]
  }
 };
 
