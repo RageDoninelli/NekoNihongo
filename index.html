@@ -709,10 +709,14 @@ let studyIndex = 0;
 let flipped = false;
 let writeIndex = 0;
 
-function goHome(){
-  document.getElementById('screen-home').classList.add('active');
+function hideAllScreens(){
+  document.getElementById('screen-home').classList.remove('active');
   document.getElementById('screen-set').classList.remove('active');
   document.getElementById('screen-words').classList.remove('active');
+}
+function goHome(){
+  hideAllScreens();
+  document.getElementById('screen-home').classList.add('active');
   setActiveNav('nav-home');
   refreshHomeStats();
   refreshWordStats();
@@ -723,7 +727,7 @@ function setActiveNav(id){
 }
 function openSet(set){
   currentSet = set;
-  document.getElementById('screen-home').classList.remove('active');
+  hideAllScreens();
   document.getElementById('screen-set').classList.add('active');
   document.getElementById('set-heading').textContent = set==='hiragana' ? 'Hiragana' : 'Katakana';
   setActiveNav(set==='hiragana' ? 'nav-hira' : 'nav-kata');
@@ -734,13 +738,13 @@ document.querySelectorAll('.set-card').forEach(el=>{
 });
 document.getElementById('words-card').addEventListener('click', openWords);
 function openWords(){
-  document.getElementById('screen-home').classList.remove('active');
+  hideAllScreens();
   document.getElementById('screen-words').classList.add('active');
   switchWordTab('wleer');
 }
 
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.querySelectorAll('#screen-set .tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
   document.getElementById('tab-study').style.display = tab==='study' ? 'block' : 'none';
   document.getElementById('tab-write').style.display = tab==='write' ? 'block' : 'none';
   document.getElementById('tab-progress').style.display = tab==='progress' ? 'block' : 'none';
