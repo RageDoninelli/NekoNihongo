@@ -1075,6 +1075,57 @@ const LESSONS = {
    {q:"へや___べんきょうします。 (Estudio en el cuarto — acción) ¿Qué partícula va en el espacio?", options:["に","で","を","は"], answer:1, explain:"で marca dónde ocurre una acción, a diferencia de に que marca existencia."},
    {q:"Traduce: した", options:["Arriba","Abajo / debajo","Dentro","Cerca"], answer:1, explain:"した significa 'abajo' o 'debajo'."}
   ]
+ },
+ 3: {
+  title:"Adjetivos い/な, gustos con が",
+  vocab:[
+   {jp:"おおきい", romaji:"ookii", es:"grande"},
+   {jp:"ちいさい", romaji:"chiisai", es:"pequeño"},
+   {jp:"あたらしい", romaji:"atarashii", es:"nuevo"},
+   {jp:"たかい", romaji:"takai", es:"alto / caro"},
+   {jp:"やすい", romaji:"yasui", es:"barato"},
+   {jp:"おいしい", romaji:"oishii", es:"delicioso"},
+   {jp:"きれい(な)", romaji:"kirei (na)", es:"bonito / limpio"},
+   {jp:"しずか(な)", romaji:"shizuka (na)", es:"tranquilo / silencioso"},
+   {jp:"ゆうめい(な)", romaji:"yuumei (na)", es:"famoso"},
+   {jp:"げんき(な)", romaji:"genki (na)", es:"con energía, saludable"},
+   {jp:"すき(な)", romaji:"suki (na)", es:"que gusta, agradable"},
+   {jp:"きらい(な)", romaji:"kirai (na)", es:"que no gusta, desagradable"},
+   {jp:"とても", romaji:"totemo", es:"muy"},
+   {jp:"あまり", romaji:"amari", es:"no muy (con negativo)"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"すしがすきですか。", romaji:"Sushi ga suki desu ka.", es:"¿Te gusta el sushi?"},
+   {sp:"B", jp:"はい、すきです。とてもおいしいです。", romaji:"Hai, suki desu. Totemo oishii desu.", es:"Sí, me gusta. Es muy delicioso."},
+   {sp:"A", jp:"このレストランはどうですか。", romaji:"Kono resutoran wa dou desu ka.", es:"¿Qué tal este restaurante?"},
+   {sp:"B", jp:"きれいですね。でも、あまりやすくないです。", romaji:"Kirei desu ne. Demo, amari yasukunai desu.", es:"Es bonito, ¿verdad? Pero no es muy barato."},
+   {sp:"A", jp:"そうですね。でも、ゆうめいなレストランです。", romaji:"Sou desu ne. Demo, yuumei na resutoran desu.", es:"Así es. Pero es un restaurante famoso."}
+  ],
+  grammar:[
+   {point:"Adjetivos い (i-adjetivos)", expl:"Terminan en い. Van directo antes del sustantivo, o al final de la oración con です (sin agregar な). Negativo: se cambia la い final por くない.", examples:[
+     {jp:"おおきい犬です。", es:"Es un perro grande."},
+     {jp:"たかくないです。", es:"No es caro."}
+   ]},
+   {point:"Adjetivos な (na-adjetivos)", expl:"Necesitan な justo antes de un sustantivo, pero NO antes de です al final de la oración.", examples:[
+     {jp:"きれいなへやです。", es:"Es un cuarto bonito. (な antes del sustantivo へや)"},
+     {jp:"へやはきれいです。", es:"El cuarto es bonito. (sin な, porque no hay sustantivo después)"}
+   ]},
+   {point:"が con すき・きらい", expl:"El objeto de lo que te gusta o no te gusta se marca con が, no con は. すき y きらい son técnicamente adjetivos な (すきな, きらいな).", examples:[
+     {jp:"すしがすきです。", es:"Me gusta el sushi."},
+     {jp:"なっとうがきらいです。", es:"No me gusta el natto."}
+   ]},
+   {point:"とても vs あまり", expl:"とても significa 'muy' y se usa en oraciones afirmativas. あまり significa 'no muy' y siempre acompaña una forma negativa.", examples:[
+     {jp:"とてもおいしいです。", es:"Es muy delicioso."},
+     {jp:"あまりたかくないです。", es:"No es muy caro."}
+   ]}
+  ],
+  quiz:[
+   {q:"すし___すきです。 ¿Qué partícula va en el espacio?", options:["は","が","を","に"], answer:1, explain:"El objeto de すき/きらい se marca con が, no は."},
+   {q:"¿Cuál es el negativo de たかい (caro)?", options:["たかくない","たかいじゃない","たかない","たかいくない"], answer:0, explain:"Los adjetivos い se niegan cambiando い por くない."},
+   {q:"きれい___へや (cuarto bonito, antes del sustantivo)", options:["な","い","の","だ"], answer:0, explain:"Los adjetivos な necesitan な antes de un sustantivo."},
+   {q:"へやはきれい___です。 (El cuarto es bonito, al final de la oración)", options:["なです","です","いです","だです"], answer:1, explain:"Antes de です al final de la oración, los adjetivos な NO llevan な."},
+   {q:"___たかくないです。 (No es muy caro)", options:["とても","あまり","すき","きらい"], answer:1, explain:"あまり siempre acompaña una forma negativa, con el sentido de 'no muy'."}
+  ]
  }
 };
 
