@@ -216,6 +216,14 @@
         <div class="bar"><div class="bar-fill" id="bar-words" style="width:0%"></div></div>
       </div>
     </div>
+    <div class="set-card" id="kanji-card">
+      <div class="glyph jp">漢</div>
+      <div class="info">
+        <div class="name">Kanji</div>
+        <div class="stat" id="stat-kanji">0 / 25 dominados</div>
+        <div class="bar"><div class="bar-fill" id="bar-kanji" style="width:0%"></div></div>
+      </div>
+    </div>
   </section>
 
   <!-- SET (study / write / progress) -->
@@ -333,6 +341,68 @@
       </div>
     </div>
   </section>
+
+  <!-- KANJI -->
+  <section id="screen-kanji" class="screen">
+    <div class="back-row">
+      <span class="back-btn" onclick="goHome()">‹ Inicio</span>
+      <span class="set-heading">Kanji</span>
+    </div>
+    <div class="tabbar">
+      <div class="tab active" data-tab="kstudy" onclick="switchKanjiTab('kstudy')">Estudiar</div>
+      <div class="tab" data-tab="kwrite" onclick="switchKanjiTab('kwrite')">Escribir</div>
+      <div class="tab" data-tab="kprogress" onclick="switchKanjiTab('kprogress')">Progreso</div>
+    </div>
+
+    <!-- ESTUDIAR -->
+    <div id="ktab-kstudy" class="tabpane">
+      <div class="flash-wrap">
+        <div class="flash-progress" id="kstudy-progress">1 / 25</div>
+        <div class="flashcard" id="kanji-flashcard" onclick="flipKanjiCard()"></div>
+        <div class="flash-actions">
+          <button class="review" onclick="kanjiNext(false)">🔁 Repasar</button>
+          <button class="know" onclick="kanjiNext(true)">✓ Lo sé</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESCRIBIR -->
+    <div id="ktab-kwrite" class="tabpane" style="display:none;">
+      <div class="write-wrap">
+        <div class="write-target">Escribe:</div>
+        <div class="write-romaji-row">
+          <div class="write-romaji" id="kwrite-meaning">uno</div>
+          <button class="speaker-btn-inline" onclick="speak(kanjiSpeakText(KANJI[kanjiWriteIndex]))">🔊</button>
+        </div>
+        <div class="canvas-frame">
+          <div class="guide-layer jp" id="kanji-guide-char"></div>
+          <canvas class="draw" id="kanji-draw-canvas"></canvas>
+        </div>
+        <div class="mastery-tag" id="kanji-mastery-tag">0 repeticiones</div>
+        <div class="toggle-row">
+          <input type="checkbox" id="kanji-guide-toggle" checked onchange="renderKanjiGuide()">
+          <label for="kanji-guide-toggle">Mostrar guía de trazo</label>
+        </div>
+        <div class="write-mnemonic" id="kanji-readings-reveal"></div>
+        <div class="write-controls">
+          <button onclick="clearKanjiCanvas()">Borrar</button>
+          <button class="done" onclick="markKanjiDone()">✓ Hecho, siguiente</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESO -->
+    <div id="ktab-kprogress" class="tabpane" style="display:none;">
+      <div class="kgrid" id="kanji-kgrid"></div>
+      <div class="legend">
+        <span><span class="dot" style="background:#fff;border:1px solid var(--line);"></span>Nuevo</span>
+        <span><span class="dot" style="background:#F3E3C9;"></span>Practicando</span>
+        <span><span class="dot" style="background:var(--indigo);"></span>Dominado</span>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <nav class="bottom">
   <div class="inner">
@@ -658,6 +728,54 @@ function recommendedWordOrder(){
     .map(x=>x.w);
 }
 
+/* ---------------- KANJI (módulo aparte) ---------------- */
+// on = on'yomi (katakana), kun = kun'yomi (hiragana), es = significado, m = mnemotecnia
+const KANJI = [
+ {c:"一", on:"イチ・イツ", kun:"ひと(つ)", es:"uno", m:"Una sola raya horizontal, como el número 1 acostado."},
+ {c:"二", on:"ニ", kun:"ふた(つ)", es:"dos", m:"Dos rayas horizontales, una encima de la otra."},
+ {c:"三", on:"サン", kun:"み(つ)・みっ(つ)", es:"tres", m:"Tres rayas horizontales apiladas."},
+ {c:"四", on:"シ", kun:"よん・よ(つ)", es:"cuatro", m:"Un marco cuadrado con una división en dos, como una ventana."},
+ {c:"五", on:"ゴ", kun:"いつ(つ)", es:"cinco", m:"Dos líneas cruzadas dentro de un marco, como tijeras guardadas."},
+ {c:"六", on:"ロク", kun:"む(つ)", es:"seis", m:"Un techo con dos patas abiertas, como una casita pequeña."},
+ {c:"七", on:"シチ", kun:"なな(つ)", es:"siete", m:"Un gancho cruzado, como una cruz con una pierna doblada."},
+ {c:"八", on:"ハチ", kun:"や(つ)", es:"ocho", m:"Dos trazos que se abren hacia los lados, como una montaña vista de lejos."},
+ {c:"九", on:"キュウ・ク", kun:"ここの(つ)", es:"nueve", m:"Un gancho largo que se curva al final, como un anzuelo grande."},
+ {c:"十", on:"ジュウ", kun:"とお", es:"diez", m:"Una cruz perfecta, como el signo de sumar."},
+ {c:"日", on:"ニチ・ジツ", kun:"ひ・か", es:"sol / día", m:"Un cuadro con una raya al medio, como una ventana con el sol entrando."},
+ {c:"月", on:"ゲツ・ガツ", kun:"つき", es:"luna / mes", m:"Un rectángulo con dos rayas dentro, como una luna con vetas."},
+ {c:"火", on:"カ", kun:"ひ", es:"fuego", m:"Una persona con brazos y piernas abiertas junto a chispas, como una fogata."},
+ {c:"水", on:"スイ", kun:"みず", es:"agua", m:"Una gota central con dos chorros a los lados, como un río dividiéndose."},
+ {c:"木", on:"モク・ボク", kun:"き", es:"árbol / madera", m:"Un árbol con tronco y ramas abiertas hacia los lados."},
+ {c:"金", on:"キン・コン", kun:"かね", es:"oro / dinero", m:"Un techo sobre una montaña de tierra con dos puntos, como pepitas enterradas."},
+ {c:"土", on:"ド・ト", kun:"つち", es:"tierra", m:"Una cruz sobre una línea base, como una planta saliendo de la tierra."},
+ {c:"人", on:"ジン・ニン", kun:"ひと", es:"persona", m:"Dos piernas caminando, una persona de perfil."},
+ {c:"大", on:"ダイ・タイ", kun:"おお(きい)", es:"grande", m:"Una persona con los brazos bien abiertos, mostrando que algo es grande."},
+ {c:"小", on:"ショウ", kun:"ちい(さい)", es:"pequeño", m:"Tres trazos pequeños que se separan, como gotas diminutas."},
+ {c:"中", on:"チュウ", kun:"なか", es:"medio / dentro", m:"Una línea vertical atravesando un cuadro justo por el medio."},
+ {c:"上", on:"ジョウ", kun:"うえ・あ(げる)", es:"arriba", m:"Una línea base con un trazo que sube, señalando hacia arriba."},
+ {c:"下", on:"カ・ゲ", kun:"した・さ(げる)", es:"abajo", m:"Una línea base con un trazo que baja, señalando hacia abajo."},
+ {c:"左", on:"サ", kun:"ひだり", es:"izquierda", m:"Una mano extendida hacia la izquierda sosteniendo una herramienta."},
+ {c:"右", on:"ウ・ユウ", kun:"みぎ", es:"derecha", m:"Una mano extendida hacia la derecha, cerca de una boca."}
+];
+
+const KANJI_STORE_KEY = "tenarai_kanji_v1";
+function loadKanjiProgress(){
+  try{ return JSON.parse(localStorage.getItem(KANJI_STORE_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveKanjiProgress(p){ localStorage.setItem(KANJI_STORE_KEY, JSON.stringify(p)); }
+let kanjiProgress = loadKanjiProgress();
+function getKanjiEntry(c){
+  if(!kanjiProgress[c]) kanjiProgress[c] = {reps:0};
+  return kanjiProgress[c];
+}
+function kanjiSpeakText(item){
+  // toma la primera lectura kun (sin okurigana entre paréntesis) o si no hay, la primera on
+  if(item.kun){
+    return item.kun.split('・')[0].replace(/\(.*?\)/g,'');
+  }
+  return item.on.split('・')[0];
+}
+
 /* ---------------- AUDIO (pronunciación) ---------------- */
 let jaVoice = null;
 function loadJaVoice(){
@@ -713,6 +831,7 @@ function hideAllScreens(){
   document.getElementById('screen-home').classList.remove('active');
   document.getElementById('screen-set').classList.remove('active');
   document.getElementById('screen-words').classList.remove('active');
+  document.getElementById('screen-kanji').classList.remove('active');
 }
 function goHome(){
   hideAllScreens();
@@ -720,6 +839,7 @@ function goHome(){
   setActiveNav('nav-home');
   refreshHomeStats();
   refreshWordStats();
+  refreshKanjiStats();
 }
 function setActiveNav(id){
   ['nav-home','nav-hira','nav-kata'].forEach(n=>document.getElementById(n).classList.remove('active'));
@@ -741,6 +861,12 @@ function openWords(){
   hideAllScreens();
   document.getElementById('screen-words').classList.add('active');
   switchWordTab('wleer');
+}
+document.getElementById('kanji-card').addEventListener('click', openKanji);
+function openKanji(){
+  hideAllScreens();
+  document.getElementById('screen-kanji').classList.add('active');
+  switchKanjiTab('kstudy');
 }
 
 function switchTab(tab){
@@ -996,6 +1122,145 @@ function refreshWordStats(){
   document.getElementById('bar-words').style.width = Math.round(done/WORDS.length*100)+"%";
 }
 
+/* ---------------- KANJI ---------------- */
+let kanjiStudyIndex = 0;
+let kanjiWriteIndex = 0;
+let kanjiFlipped = false;
+let kctx = null;
+
+function switchKanjiTab(tab){
+  document.querySelectorAll('#screen-kanji .tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.getElementById('ktab-kstudy').style.display = tab==='kstudy' ? 'block' : 'none';
+  document.getElementById('ktab-kwrite').style.display = tab==='kwrite' ? 'block' : 'none';
+  document.getElementById('ktab-kprogress').style.display = tab==='kprogress' ? 'block' : 'none';
+  if(tab==='kstudy') renderKanjiStudy();
+  if(tab==='kwrite') { kanjiWriteIndex = pickNextKanjiWriteIndex(); renderKanjiWrite(); }
+  if(tab==='kprogress') renderKanjiGrid();
+}
+
+function renderKanjiStudy(){
+  kanjiFlipped = false;
+  const item = KANJI[kanjiStudyIndex];
+  document.getElementById('kstudy-progress').textContent = (kanjiStudyIndex+1)+" / "+KANJI.length;
+  const card = document.getElementById('kanji-flashcard');
+  card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(kanjiSpeakText(KANJI['+kanjiStudyIndex+']))">🔊</button><div class="big-kana jp" id="kfc-front">'+item.c+'</div><div class="hint">Toca para ver el significado</div>';
+}
+function flipKanjiCard(){
+  const item = KANJI[kanjiStudyIndex];
+  const card = document.getElementById('kanji-flashcard');
+  kanjiFlipped = !kanjiFlipped;
+  if(kanjiFlipped){
+    card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(kanjiSpeakText(KANJI['+kanjiStudyIndex+']))">🔊</button>'
+      + '<div class="romaji-back" style="font-size:24px;">'+item.es+'</div>'
+      + '<div class="mnemonic"><b>on\'yomi:</b> '+item.on+' &nbsp; <b>kun\'yomi:</b> '+item.kun+'</div>'
+      + '<div class="mnemonic">'+item.m+'</div>';
+  } else {
+    card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(kanjiSpeakText(KANJI['+kanjiStudyIndex+']))">🔊</button><div class="big-kana jp" id="kfc-front">'+item.c+'</div><div class="hint">Toca para ver el significado</div>';
+  }
+}
+function kanjiNext(knew){
+  const item = KANJI[kanjiStudyIndex];
+  const entry = getKanjiEntry(item.c);
+  entry.known = knew;
+  saveKanjiProgress(kanjiProgress);
+  kanjiStudyIndex = (kanjiStudyIndex+1) % KANJI.length;
+  renderKanjiStudy();
+}
+
+function pickNextKanjiWriteIndex(){
+  let idx=0, minReps=Infinity;
+  KANJI.forEach((item,i)=>{
+    const reps = getKanjiEntry(item.c).reps;
+    if(reps<minReps){ minReps=reps; idx=i; }
+  });
+  return idx;
+}
+function setupKanjiCanvas(){
+  const canvas = document.getElementById('kanji-draw-canvas');
+  const frame = canvas.parentElement;
+  canvas.width = frame.clientWidth;
+  canvas.height = frame.clientHeight;
+  kctx = canvas.getContext('2d');
+  kctx.lineWidth = 10;
+  kctx.lineCap = 'round';
+  kctx.lineJoin = 'round';
+  kctx.strokeStyle = '#2B4570';
+  let drawingK=false, lx=0, ly=0;
+  function pos(e){
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return {x: t.clientX-rect.left, y: t.clientY-rect.top};
+  }
+  function start(e){ e.preventDefault(); drawingK=true; const p=pos(e); lx=p.x; ly=p.y; }
+  function move(e){
+    if(!drawingK) return; e.preventDefault();
+    const p = pos(e);
+    kctx.beginPath(); kctx.moveTo(lx,ly); kctx.lineTo(p.x,p.y); kctx.stroke();
+    lx=p.x; ly=p.y;
+  }
+  function end(){ drawingK=false; }
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+function clearKanjiCanvas(){ if(kctx) kctx.clearRect(0,0,kctx.canvas.width, kctx.canvas.height); }
+function renderKanjiGuide(){
+  const item = KANJI[kanjiWriteIndex];
+  const entry = getKanjiEntry(item.c);
+  const show = document.getElementById('kanji-guide-toggle').checked;
+  const op = show ? guideOpacity(entry.reps) : 0;
+  const guide = document.getElementById('kanji-guide-char');
+  guide.textContent = item.c;
+  guide.style.opacity = op;
+}
+function renderKanjiWrite(){
+  const item = KANJI[kanjiWriteIndex];
+  document.getElementById('kwrite-meaning').textContent = item.es;
+  document.getElementById('kanji-readings-reveal').textContent = '';
+  const entry = getKanjiEntry(item.c);
+  const lvl = masteryLevel(entry.reps);
+  const label = lvl===2 ? "Dominado ("+entry.reps+" repeticiones)" : lvl===1 ? "Practicando ("+entry.reps+" repeticiones)" : entry.reps+" repeticiones";
+  document.getElementById('kanji-mastery-tag').textContent = label;
+  if(!kctx) setupKanjiCanvas();
+  clearKanjiCanvas();
+  renderKanjiGuide();
+}
+function markKanjiDone(){
+  const item = KANJI[kanjiWriteIndex];
+  const entry = getKanjiEntry(item.c);
+  entry.reps += 1;
+  saveKanjiProgress(kanjiProgress);
+  document.getElementById('kanji-readings-reveal').textContent = "on: "+item.on+" · kun: "+item.kun;
+  kanjiWriteIndex = pickNextKanjiWriteIndex();
+  renderKanjiWrite();
+}
+function renderKanjiGrid(){
+  const grid = document.getElementById('kanji-kgrid');
+  grid.innerHTML = '';
+  KANJI.forEach((item,i)=>{
+    const entry = getKanjiEntry(item.c);
+    const lvl = masteryLevel(entry.reps);
+    const cell = document.createElement('div');
+    cell.className = 'kcell jp l'+lvl;
+    cell.textContent = item.c;
+    cell.title = item.es;
+    cell.addEventListener('click', ()=>{
+      kanjiWriteIndex = i;
+      switchKanjiTab('kwrite');
+    });
+    grid.appendChild(cell);
+  });
+}
+function refreshKanjiStats(){
+  let mastered = 0;
+  KANJI.forEach(item=>{ if(masteryLevel(getKanjiEntry(item.c).reps)===2) mastered++; });
+  document.getElementById('stat-kanji').textContent = mastered+" / "+KANJI.length+" dominados";
+  document.getElementById('bar-kanji').style.width = Math.round(mastered/KANJI.length*100)+"%";
+}
+
 /* ---------------- PROGRESS GRID ---------------- */
 function renderGrid(){
   const arr = SETS[currentSet];
@@ -1019,7 +1284,12 @@ function renderGrid(){
 /* ---------------- INIT ---------------- */
 refreshHomeStats();
 refreshWordStats();
-window.addEventListener('resize', ()=>{ if(ctx) setupCanvas(); renderGuide(); if(wctx) setupWordCanvas(); renderWordGuide(); });
+refreshKanjiStats();
+window.addEventListener('resize', ()=>{
+  if(ctx) setupCanvas(); renderGuide();
+  if(wctx) setupWordCanvas(); renderWordGuide();
+  if(kctx) setupKanjiCanvas(); renderKanjiGuide();
+});
 
 /* ---------------- PWA: service worker ---------------- */
 if('serviceWorker' in navigator){
