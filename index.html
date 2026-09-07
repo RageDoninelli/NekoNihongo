@@ -99,6 +99,11 @@
   .flashcard .romaji-back{font-size:34px; font-weight:700; color:var(--indigo); margin-bottom:10px;}
   .flashcard .mnemonic{font-size:13.5px; color:var(--ink-soft); text-align:center; padding:0 24px; line-height:1.5;}
   .flashcard .hint{position:absolute; bottom:14px; font-size:11px; color:var(--line); }
+  .speaker-btn{
+    position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--line); background:#fff; font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; padding:0;
+  }
   .flash-actions{display:flex; gap:12px; margin-top:20px; width:100%; max-width:280px;}
   .flash-actions button{
     flex:1; padding:13px 0; border-radius:10px; border:1px solid var(--line); background:#fff;
@@ -111,6 +116,12 @@
   .write-wrap{display:flex; flex-direction:column; align-items:center;}
   .write-target{font-size:13px; color:var(--ink-soft); margin-bottom:2px; text-align:center;}
   .write-romaji{font-size:22px; font-weight:700; color:var(--indigo); margin-bottom:12px;}
+  .write-romaji-row{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .write-romaji-row .write-romaji{margin-bottom:0;}
+  .speaker-btn-inline{
+    width:32px; height:32px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;
+  }
   .canvas-frame{
     position:relative; width:100%; max-width:280px; aspect-ratio:1/1;
     background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
@@ -230,7 +241,10 @@
     <div id="tab-write" class="tabpane" style="display:none;">
       <div class="write-wrap">
         <div class="write-target">Escribe:</div>
-        <div class="write-romaji" id="write-romaji">a</div>
+        <div class="write-romaji-row">
+          <div class="write-romaji" id="write-romaji">a</div>
+          <button class="speaker-btn-inline" onclick="speak(SETS[currentSet][writeIndex].c)">🔊</button>
+        </div>
         <div class="canvas-frame">
           <div class="guide-layer jp" id="guide-char">あ</div>
           <canvas class="draw" id="draw-canvas"></canvas>
@@ -343,7 +357,40 @@ const HIRAGANA = [
  {c:"ぴ",r:"pi",m:"Es ひ + ゜(maru): sonido explosivo suave."},
  {c:"ぷ",r:"pu",m:"Es ふ + ゜(maru): sonido explosivo suave."},
  {c:"ぺ",r:"pe",m:"Es へ + ゜(maru): sonido explosivo suave."},
- {c:"ぽ",r:"po",m:"Es ほ + ゜(maru): sonido explosivo suave."}
+ {c:"ぽ",r:"po",m:"Es ほ + ゜(maru): sonido explosivo suave."},
+ {c:"きゃ",r:"kya",m:"き + や pequeña: se funden en una sola sílaba."},
+ {c:"きゅ",r:"kyu",m:"き + ゆ pequeña: se funden en una sola sílaba."},
+ {c:"きょ",r:"kyo",m:"き + よ pequeña: se funden en una sola sílaba."},
+ {c:"ぎゃ",r:"gya",m:"ぎ + や pequeña, con la vibración del tenten."},
+ {c:"ぎゅ",r:"gyu",m:"ぎ + ゆ pequeña, con la vibración del tenten."},
+ {c:"ぎょ",r:"gyo",m:"ぎ + よ pequeña, con la vibración del tenten."},
+ {c:"しゃ",r:"sha",m:"し + や pequeña: suena como 'sha' de shampoo."},
+ {c:"しゅ",r:"shu",m:"し + ゆ pequeña: suena como 'shu'."},
+ {c:"しょ",r:"sho",m:"し + よ pequeña: suena como 'sho'."},
+ {c:"じゃ",r:"ja",m:"じ + や pequeña: suena como la 'ya' en inglés 'yard'."},
+ {c:"じゅ",r:"ju",m:"じ + ゆ pequeña: suena como 'ju' en inglés."},
+ {c:"じょ",r:"jo",m:"じ + よ pequeña: suena como 'jo' en inglés."},
+ {c:"ちゃ",r:"cha",m:"ち + や pequeña: suena como 'cha' de chai."},
+ {c:"ちゅ",r:"chu",m:"ち + ゆ pequeña: suena como 'chu'."},
+ {c:"ちょ",r:"cho",m:"ち + よ pequeña: suena como 'cho'."},
+ {c:"にゃ",r:"nya",m:"に + や pequeña: como un maullido, 'nya'."},
+ {c:"にゅ",r:"nyu",m:"に + ゆ pequeña: se funden en una sola sílaba."},
+ {c:"にょ",r:"nyo",m:"に + よ pequeña: se funden en una sola sílaba."},
+ {c:"ひゃ",r:"hya",m:"ひ + や pequeña: se funden en una sola sílaba."},
+ {c:"ひゅ",r:"hyu",m:"ひ + ゆ pequeña: se funden en una sola sílaba."},
+ {c:"ひょ",r:"hyo",m:"ひ + よ pequeña: se funden en una sola sílaba."},
+ {c:"びゃ",r:"bya",m:"び + や pequeña, con la vibración del tenten."},
+ {c:"びゅ",r:"byu",m:"び + ゆ pequeña, con la vibración del tenten."},
+ {c:"びょ",r:"byo",m:"び + よ pequeña, con la vibración del tenten."},
+ {c:"ぴゃ",r:"pya",m:"ぴ + や pequeña, con el sonido explosivo del maru."},
+ {c:"ぴゅ",r:"pyu",m:"ぴ + ゆ pequeña, con el sonido explosivo del maru."},
+ {c:"ぴょ",r:"pyo",m:"ぴ + よ pequeña, con el sonido explosivo del maru."},
+ {c:"みゃ",r:"mya",m:"み + や pequeña: se funden en una sola sílaba."},
+ {c:"みゅ",r:"myu",m:"み + ゆ pequeña: se funden en una sola sílaba."},
+ {c:"みょ",r:"myo",m:"み + よ pequeña: se funden en una sola sílaba."},
+ {c:"りゃ",r:"rya",m:"り + や pequeña: se funden en una sola sílaba."},
+ {c:"りゅ",r:"ryu",m:"り + ゆ pequeña: se funden en una sola sílaba."},
+ {c:"りょ",r:"ryo",m:"り + よ pequeña: se funden en una sola sílaba."}
 ];
 
 const KATAKANA = [
@@ -417,10 +464,63 @@ const KATAKANA = [
  {c:"ピ",r:"pi",m:"Es ヒ + ゜(maru): sonido explosivo suave."},
  {c:"プ",r:"pu",m:"Es フ + ゜(maru): sonido explosivo suave."},
  {c:"ペ",r:"pe",m:"Es ヘ + ゜(maru): sonido explosivo suave."},
- {c:"ポ",r:"po",m:"Es ホ + ゜(maru): sonido explosivo suave."}
+ {c:"ポ",r:"po",m:"Es ホ + ゜(maru): sonido explosivo suave."},
+ {c:"キャ",r:"kya",m:"キ + ヤ pequeña: se funden en una sola sílaba."},
+ {c:"キュ",r:"kyu",m:"キ + ユ pequeña: se funden en una sola sílaba."},
+ {c:"キョ",r:"kyo",m:"キ + ヨ pequeña: se funden en una sola sílaba."},
+ {c:"ギャ",r:"gya",m:"ギ + ヤ pequeña, con la vibración del tenten."},
+ {c:"ギュ",r:"gyu",m:"ギ + ユ pequeña, con la vibración del tenten."},
+ {c:"ギョ",r:"gyo",m:"ギ + ヨ pequeña, con la vibración del tenten."},
+ {c:"シャ",r:"sha",m:"シ + ヤ pequeña: suena como 'sha' de shampoo."},
+ {c:"シュ",r:"shu",m:"シ + ユ pequeña: suena como 'shu'."},
+ {c:"ショ",r:"sho",m:"シ + ヨ pequeña: suena como 'sho'."},
+ {c:"ジャ",r:"ja",m:"ジ + ヤ pequeña: suena como la 'ya' en inglés 'yard'."},
+ {c:"ジュ",r:"ju",m:"ジ + ユ pequeña: suena como 'ju' en inglés."},
+ {c:"ジョ",r:"jo",m:"ジ + ヨ pequeña: suena como 'jo' en inglés."},
+ {c:"チャ",r:"cha",m:"チ + ヤ pequeña: suena como 'cha' de chai."},
+ {c:"チュ",r:"chu",m:"チ + ユ pequeña: suena como 'chu'."},
+ {c:"チョ",r:"cho",m:"チ + ヨ pequeña: suena como 'cho'."},
+ {c:"ニャ",r:"nya",m:"ニ + ヤ pequeña: como un maullido, 'nya'."},
+ {c:"ニュ",r:"nyu",m:"ニ + ユ pequeña: se funden en una sola sílaba."},
+ {c:"ニョ",r:"nyo",m:"ニ + ヨ pequeña: se funden en una sola sílaba."},
+ {c:"ヒャ",r:"hya",m:"ヒ + ヤ pequeña: se funden en una sola sílaba."},
+ {c:"ヒュ",r:"hyu",m:"ヒ + ユ pequeña: se funden en una sola sílaba."},
+ {c:"ヒョ",r:"hyo",m:"ヒ + ヨ pequeña: se funden en una sola sílaba."},
+ {c:"ビャ",r:"bya",m:"ビ + ヤ pequeña, con la vibración del tenten."},
+ {c:"ビュ",r:"byu",m:"ビ + ユ pequeña, con la vibración del tenten."},
+ {c:"ビョ",r:"byo",m:"ビ + ヨ pequeña, con la vibración del tenten."},
+ {c:"ピャ",r:"pya",m:"ピ + ヤ pequeña, con el sonido explosivo del maru."},
+ {c:"ピュ",r:"pyu",m:"ピ + ユ pequeña, con el sonido explosivo del maru."},
+ {c:"ピョ",r:"pyo",m:"ピ + ヨ pequeña, con el sonido explosivo del maru."},
+ {c:"ミャ",r:"mya",m:"ミ + ヤ pequeña: se funden en una sola sílaba."},
+ {c:"ミュ",r:"myu",m:"ミ + ユ pequeña: se funden en una sola sílaba."},
+ {c:"ミョ",r:"myo",m:"ミ + ヨ pequeña: se funden en una sola sílaba."},
+ {c:"リャ",r:"rya",m:"リ + ヤ pequeña: se funden en una sola sílaba."},
+ {c:"リュ",r:"ryu",m:"リ + ユ pequeña: se funden en una sola sílaba."},
+ {c:"リョ",r:"ryo",m:"リ + ヨ pequeña: se funden en una sola sílaba."}
 ];
 
 const SETS = {hiragana:HIRAGANA, katakana:KATAKANA};
+
+/* ---------------- AUDIO (pronunciación) ---------------- */
+let jaVoice = null;
+function loadJaVoice(){
+  const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  jaVoice = voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('ja')) || null;
+}
+if('speechSynthesis' in window){
+  loadJaVoice();
+  window.speechSynthesis.onvoiceschanged = loadJaVoice;
+}
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP';
+  if(jaVoice) u.voice = jaVoice;
+  u.rate = 0.75;
+  window.speechSynthesis.speak(u);
+}
 
 /* ---------------- STORAGE ---------------- */
 const STORE_KEY = "tenarai_progress_v1";
@@ -501,12 +601,9 @@ function renderStudy(){
   flipped = false;
   const arr = SETS[currentSet];
   const item = arr[studyIndex];
-  document.getElementById('fc-front').textContent = item.c;
-  document.getElementById('fc-front').className = 'big-kana jp';
-  document.getElementById('fc-hint').textContent = 'Toca para ver el nombre';
   document.getElementById('study-progress').textContent = (studyIndex+1)+" / "+arr.length;
   const card = document.getElementById('flashcard');
-  card.innerHTML = '<div class="big-kana jp" id="fc-front">'+item.c+'</div><div class="hint" id="fc-hint">Toca para ver el nombre</div>';
+  card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(\''+item.c+'\')">🔊</button><div class="big-kana jp" id="fc-front">'+item.c+'</div><div class="hint" id="fc-hint">Toca para ver el nombre</div>';
 }
 function flipCard(){
   const arr = SETS[currentSet];
@@ -514,9 +611,9 @@ function flipCard(){
   const card = document.getElementById('flashcard');
   flipped = !flipped;
   if(flipped){
-    card.innerHTML = '<div class="romaji-back">'+item.r+'</div><div class="mnemonic">'+item.m+'</div>';
+    card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(\''+item.c+'\')">🔊</button><div class="romaji-back">'+item.r+'</div><div class="mnemonic">'+item.m+'</div>';
   } else {
-    card.innerHTML = '<div class="big-kana jp" id="fc-front">'+item.c+'</div><div class="hint" id="fc-hint">Toca para ver el nombre</div>';
+    card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(\''+item.c+'\')">🔊</button><div class="big-kana jp" id="fc-front">'+item.c+'</div><div class="hint" id="fc-hint">Toca para ver el nombre</div>';
   }
 }
 function studyNext(knew){
