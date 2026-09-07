@@ -1,4 +1,4 @@
-const CACHE_NAME = "tenarai-cache-v5";
+const CACHE_NAME = "tenarai-cache-v6";
 const APP_SHELL = [
   "./",
   "./index.html",

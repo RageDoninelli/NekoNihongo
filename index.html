@@ -1024,6 +1024,57 @@ const LESSONS = {
    {q:"¿Cómo conviertes 'たなかさんです' en pregunta?", options:["Agregando か al final","Agregando は al final","Cambiando el orden","Agregando ちがいます"], answer:0, explain:"En japonés, か al final de la oración es la marca de pregunta."},
    {q:"Traduce: はじめまして", options:["Buenos días","Mucho gusto (al conocer a alguien)","Adiós","Gracias"], answer:1, explain:"はじめまして se usa exclusivamente la primera vez que conoces a alguien."}
   ]
+ },
+ 2: {
+  title:"あります・います, posición (に・で), números y contadores",
+  vocab:[
+   {jp:"あります", romaji:"arimasu", es:"hay / está (cosas, objetos)"},
+   {jp:"います", romaji:"imasu", es:"hay / está (personas, animales)"},
+   {jp:"どこ", romaji:"doko", es:"dónde"},
+   {jp:"ここ", romaji:"koko", es:"aquí"},
+   {jp:"そこ", romaji:"soko", es:"ahí"},
+   {jp:"あそこ", romaji:"asoko", es:"allí"},
+   {jp:"うえ", romaji:"ue", es:"arriba / encima"},
+   {jp:"した", romaji:"shita", es:"abajo / debajo"},
+   {jp:"なか", romaji:"naka", es:"dentro"},
+   {jp:"ちかく", romaji:"chikaku", es:"cerca"},
+   {jp:"へや", romaji:"heya", es:"cuarto / habitación"},
+   {jp:"つくえ", romaji:"tsukue", es:"escritorio"},
+   {jp:"いす", romaji:"isu", es:"silla"},
+   {jp:"ひとつ", romaji:"hitotsu", es:"uno (contador general)"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"すみません、ねこはどこですか。", romaji:"Sumimasen, neko wa doko desu ka.", es:"Disculpe, ¿dónde está el gato?"},
+   {sp:"B", jp:"ねこはつくえのしたにいます。", romaji:"Neko wa tsukue no shita ni imasu.", es:"El gato está debajo del escritorio."},
+   {sp:"A", jp:"ほんはどこにありますか。", romaji:"Hon wa doko ni arimasu ka.", es:"¿Dónde está el libro?"},
+   {sp:"B", jp:"ほんはつくえのうえにあります。", romaji:"Hon wa tsukue no ue ni arimasu.", es:"El libro está sobre el escritorio."},
+   {sp:"A", jp:"ありがとうございます。", romaji:"Arigatou gozaimasu.", es:"Muchas gracias."},
+   {sp:"B", jp:"どういたしまして。", romaji:"Dou itashimashite.", es:"De nada."}
+  ],
+  grammar:[
+   {point:"あります vs います", expl:"Ambas significan 'hay / está', pero según el tipo de sujeto: あります para cosas inanimadas (objetos, plantas), います para seres animados (personas, animales).", examples:[
+     {jp:"つくえの上に本があります。", es:"Hay un libro sobre el escritorio."},
+     {jp:"へやにねこがいます。", es:"Hay un gato en el cuarto."}
+   ]},
+   {point:"に (ubicación con verbos de existencia)", expl:"Marca DÓNDE existe o está algo. Se usa siempre junto a あります・います.", examples:[
+     {jp:"ねこはつくえの下にいます。", es:"El gato está debajo del escritorio."}
+   ]},
+   {point:"Palabras de posición + の", expl:"うえ(arriba), した(abajo), なか(dentro), ちかく(cerca) se combinan con の para decir 'encima de X', 'debajo de X', etc: [cosa]の[posición]に。", examples:[
+     {jp:"つくえの上に", es:"encima del escritorio"},
+     {jp:"いすのちかくに", es:"cerca de la silla"}
+   ]},
+   {point:"に vs で", expl:"に marca dónde EXISTE algo (con あります・います). で marca dónde ocurre una ACCIÓN (con verbos de acción, como estudiar o comer).", examples:[
+     {jp:"へやで べんきょうします。", es:"Estudio en el cuarto (acción)."},
+     {jp:"へやに いすが あります。", es:"Hay una silla en el cuarto (existencia)."}
+   ]}
+  ],
+  quiz:[
+   {q:"ねこはつくえの下___います。 ¿Qué partícula va en el espacio?", options:["は","に","で","を"], answer:1, explain:"に marca dónde existe/está algo con あります・います."},
+   {q:"¿Cuál usas para 'Hay un libro' (objeto inanimado)?", options:["あります","います","です","あそこ"], answer:0, explain:"あります se usa para cosas inanimadas, como un libro."},
+   {q:"¿Cuál usas para 'Hay un perro'?", options:["あります","います","どこ","ちかく"], answer:1, explain:"います se usa para seres animados, como un perro."},
+   {q:"へや___べんきょうします。 (Estudio en el cuarto — acción) ¿Qué partícula va en el espacio?", options:["に","で","を","は"], answer:1, explain:"で marca dónde ocurre una acción, a diferencia de に que marca existencia."},
+   {q:"Traduce: した", options:["Arriba","Abajo / debajo","Dentro","Cerca"], answer:1, explain:"した significa 'abajo' o 'debajo'."}
+  ]
  }
 };
 
