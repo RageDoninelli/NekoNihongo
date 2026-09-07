@@ -204,8 +204,16 @@
       <div class="glyph jp">ア</div>
       <div class="info">
         <div class="name">Katakana</div>
-        <div class="stat" id="stat-katakana">0 / 71 dominados</div>
+        <div class="stat" id="stat-katakana">0 / 104 dominados</div>
         <div class="bar"><div class="bar-fill" id="bar-katakana" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="set-card" id="words-card">
+      <div class="glyph jp">読</div>
+      <div class="info">
+        <div class="name">Lectura y escritura</div>
+        <div class="stat" id="stat-words">0 / 60 palabras</div>
+        <div class="bar"><div class="bar-fill" id="bar-words" style="width:0%"></div></div>
       </div>
     </div>
   </section>
@@ -273,7 +281,58 @@
     </div>
   </section>
 
-</main>
+  <!-- WORDS (lecto-escritura) -->
+  <section id="screen-words" class="screen">
+    <div class="back-row">
+      <span class="back-btn" onclick="goHome()">‹ Inicio</span>
+      <span class="set-heading">Lectura y escritura</span>
+    </div>
+    <div class="tabbar">
+      <div class="tab active" data-tab="wleer" onclick="switchWordTab('wleer')">Leer</div>
+      <div class="tab" data-tab="wescribir" onclick="switchWordTab('wescribir')">Escribir</div>
+    </div>
+
+    <!-- LEER -->
+    <div id="wtab-leer" class="tabpane">
+      <div class="flash-wrap">
+        <div class="flash-progress" id="wleer-progress">1 / 60</div>
+        <div class="flashcard" id="word-flashcard" onclick="flipWordCard()" style="max-width:320px;">
+          <button class="speaker-btn" onclick="event.stopPropagation(); speak(currentWord().w)">🔊</button>
+          <div class="big-kana jp" id="wfc-front" style="font-size:56px;"></div>
+          <div class="hint">Toca para ver el significado</div>
+        </div>
+        <div class="flash-actions" style="max-width:320px;">
+          <button class="review" onclick="wordNext(false)">🔁 Repasar</button>
+          <button class="know" onclick="wordNext(true)">✓ Lo sé</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESCRIBIR (dictado) -->
+    <div id="wtab-escribir" class="tabpane" style="display:none;">
+      <div class="write-wrap">
+        <div class="write-target">Escucha y escribe la palabra:</div>
+        <div class="write-romaji-row">
+          <div class="write-romaji" id="wescribir-meaning">gato</div>
+          <button class="speaker-btn-inline" onclick="speak(currentWriteWord().w)">🔊</button>
+        </div>
+        <div class="canvas-frame" id="word-canvas-frame" style="max-width:320px; aspect-ratio:2/1;">
+          <div class="guide-layer jp" id="word-guide-char" style="font-size:64px; letter-spacing:2px;"></div>
+          <canvas class="draw" id="word-draw-canvas"></canvas>
+        </div>
+        <div class="mastery-tag" id="word-mastery-tag">0 repeticiones</div>
+        <div class="toggle-row">
+          <input type="checkbox" id="word-guide-toggle" checked onchange="renderWordGuide()">
+          <label for="word-guide-toggle">Mostrar guía de trazo</label>
+        </div>
+        <div class="write-mnemonic" id="word-romaji-reveal"></div>
+        <div class="write-controls" style="max-width:320px;">
+          <button onclick="clearWordCanvas()">Borrar</button>
+          <button class="done" onclick="markWordDone()">✓ Hecho, siguiente</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
 <nav class="bottom">
   <div class="inner">
@@ -390,7 +449,8 @@ const HIRAGANA = [
  {c:"みょ",r:"myo",m:"み + よ pequeña: se funden en una sola sílaba."},
  {c:"りゃ",r:"rya",m:"り + や pequeña: se funden en una sola sílaba."},
  {c:"りゅ",r:"ryu",m:"り + ゆ pequeña: se funden en una sola sílaba."},
- {c:"りょ",r:"ryo",m:"り + よ pequeña: se funden en una sola sílaba."}
+ {c:"りょ",r:"ryo",m:"り + よ pequeña: se funden en una sola sílaba."},
+ {c:"っ",r:"(pausa)",m:"Una つ pequeña: duplica la consonante siguiente, como una pausa breve antes de seguir."}
 ];
 
 const KATAKANA = [
@@ -497,10 +557,106 @@ const KATAKANA = [
  {c:"ミョ",r:"myo",m:"ミ + ヨ pequeña: se funden en una sola sílaba."},
  {c:"リャ",r:"rya",m:"リ + ヤ pequeña: se funden en una sola sílaba."},
  {c:"リュ",r:"ryu",m:"リ + ユ pequeña: se funden en una sola sílaba."},
- {c:"リョ",r:"ryo",m:"リ + ヨ pequeña: se funden en una sola sílaba."}
+ {c:"リョ",r:"ryo",m:"リ + ヨ pequeña: se funden en una sola sílaba."},
+ {c:"ッ",r:"(pausa)",m:"Una ツ pequeña: duplica la consonante siguiente, como una pausa breve antes de seguir."},
+ {c:"ー",r:"(alarga)",m:"Una raya horizontal: alarga la vocal anterior, muy común en palabras extranjeras."}
 ];
 
 const SETS = {hiragana:HIRAGANA, katakana:KATAKANA};
+
+/* ---------------- WORDS (lecto-escritura) ---------------- */
+// tokens: cómo se descompone la palabra en caracteres de HIRAGANA/KATAKANA (para leer su progreso individual)
+const WORDS = [
+ {w:"ねこ", tokens:["ね","こ"], romaji:"neko", es:"gato", script:"hiragana"},
+ {w:"いぬ", tokens:["い","ぬ"], romaji:"inu", es:"perro", script:"hiragana"},
+ {w:"さかな", tokens:["さ","か","な"], romaji:"sakana", es:"pez", script:"hiragana"},
+ {w:"みず", tokens:["み","ず"], romaji:"mizu", es:"agua", script:"hiragana"},
+ {w:"やま", tokens:["や","ま"], romaji:"yama", es:"montaña", script:"hiragana"},
+ {w:"かわ", tokens:["か","わ"], romaji:"kawa", es:"río", script:"hiragana"},
+ {w:"そら", tokens:["そ","ら"], romaji:"sora", es:"cielo", script:"hiragana"},
+ {w:"はな", tokens:["は","な"], romaji:"hana", es:"flor", script:"hiragana"},
+ {w:"くるま", tokens:["く","る","ま"], romaji:"kuruma", es:"carro", script:"hiragana"},
+ {w:"つくえ", tokens:["つ","く","え"], romaji:"tsukue", es:"escritorio", script:"hiragana"},
+ {w:"てがみ", tokens:["て","が","み"], romaji:"tegami", es:"carta", script:"hiragana"},
+ {w:"ともだち", tokens:["と","も","だ","ち"], romaji:"tomodachi", es:"amigo/a", script:"hiragana"},
+ {w:"たべもの", tokens:["た","べ","も","の"], romaji:"tabemono", es:"comida", script:"hiragana"},
+ {w:"のみもの", tokens:["の","み","も","の"], romaji:"nomimono", es:"bebida", script:"hiragana"},
+ {w:"あさ", tokens:["あ","さ"], romaji:"asa", es:"mañana", script:"hiragana"},
+ {w:"よる", tokens:["よ","る"], romaji:"yoru", es:"noche", script:"hiragana"},
+ {w:"あめ", tokens:["あ","め"], romaji:"ame", es:"lluvia", script:"hiragana"},
+ {w:"ゆき", tokens:["ゆ","き"], romaji:"yuki", es:"nieve", script:"hiragana"},
+ {w:"かぜ", tokens:["か","ぜ"], romaji:"kaze", es:"viento", script:"hiragana"},
+ {w:"いえ", tokens:["い","え"], romaji:"ie", es:"casa", script:"hiragana"},
+ {w:"にわ", tokens:["に","わ"], romaji:"niwa", es:"jardín", script:"hiragana"},
+ {w:"がっこう", tokens:["が","っ","こ","う"], romaji:"gakkou", es:"escuela", script:"hiragana"},
+ {w:"せんせい", tokens:["せ","ん","せ","い"], romaji:"sensei", es:"maestro/a", script:"hiragana"},
+ {w:"がくせい", tokens:["が","く","せ","い"], romaji:"gakusei", es:"estudiante", script:"hiragana"},
+ {w:"りんご", tokens:["り","ん","ご"], romaji:"ringo", es:"manzana", script:"hiragana"},
+ {w:"みかん", tokens:["み","か","ん"], romaji:"mikan", es:"mandarina", script:"hiragana"},
+ {w:"すいか", tokens:["す","い","か"], romaji:"suika", es:"sandía", script:"hiragana"},
+ {w:"たまご", tokens:["た","ま","ご"], romaji:"tamago", es:"huevo", script:"hiragana"},
+ {w:"ぎゅうにゅう", tokens:["ぎゅ","う","にゅ","う"], romaji:"gyuunyuu", es:"leche", script:"hiragana"},
+ {w:"おちゃ", tokens:["お","ちゃ"], romaji:"ocha", es:"té", script:"hiragana"},
+ {w:"でんわ", tokens:["で","ん","わ"], romaji:"denwa", es:"teléfono", script:"hiragana"},
+ {w:"しごと", tokens:["し","ご","と"], romaji:"shigoto", es:"trabajo", script:"hiragana"},
+ {w:"かいしゃ", tokens:["か","い","しゃ"], romaji:"kaisha", es:"empresa", script:"hiragana"},
+ {w:"びょういん", tokens:["びょ","う","い","ん"], romaji:"byouin", es:"hospital", script:"hiragana"},
+ {w:"くすり", tokens:["く","す","り"], romaji:"kusuri", es:"medicina", script:"hiragana"},
+ {w:"げんき", tokens:["げ","ん","き"], romaji:"genki", es:"con energía, saludable", script:"hiragana"},
+ {w:"おかね", tokens:["お","か","ね"], romaji:"okane", es:"dinero", script:"hiragana"},
+ {w:"きっぷ", tokens:["き","っ","ぷ"], romaji:"kippu", es:"boleto", script:"hiragana"},
+ {w:"でんしゃ", tokens:["で","ん","しゃ"], romaji:"densha", es:"tren", script:"hiragana"},
+ {w:"ひゃく", tokens:["ひゃ","く"], romaji:"hyaku", es:"cien", script:"hiragana"},
+ {w:"りょこう", tokens:["りょ","こ","う"], romaji:"ryokou", es:"viaje", script:"hiragana"},
+ {w:"コーヒー", tokens:["コ","ー","ヒ","ー"], romaji:"koohii", es:"café", script:"katakana"},
+ {w:"テレビ", tokens:["テ","レ","ビ"], romaji:"terebi", es:"televisión", script:"katakana"},
+ {w:"カメラ", tokens:["カ","メ","ラ"], romaji:"kamera", es:"cámara", script:"katakana"},
+ {w:"パン", tokens:["パ","ン"], romaji:"pan", es:"pan", script:"katakana"},
+ {w:"バス", tokens:["バ","ス"], romaji:"basu", es:"autobús", script:"katakana"},
+ {w:"タクシー", tokens:["タ","ク","シ","ー"], romaji:"takushii", es:"taxi", script:"katakana"},
+ {w:"ホテル", tokens:["ホ","テ","ル"], romaji:"hoteru", es:"hotel", script:"katakana"},
+ {w:"レストラン", tokens:["レ","ス","ト","ラ","ン"], romaji:"resutoran", es:"restaurante", script:"katakana"},
+ {w:"ケーキ", tokens:["ケ","ー","キ"], romaji:"keeki", es:"pastel", script:"katakana"},
+ {w:"アイス", tokens:["ア","イ","ス"], romaji:"aisu", es:"helado", script:"katakana"},
+ {w:"ピザ", tokens:["ピ","ザ"], romaji:"piza", es:"pizza", script:"katakana"},
+ {w:"ジュース", tokens:["ジュ","ー","ス"], romaji:"juusu", es:"jugo", script:"katakana"},
+ {w:"ノート", tokens:["ノ","ー","ト"], romaji:"nooto", es:"cuaderno", script:"katakana"},
+ {w:"ペン", tokens:["ペ","ン"], romaji:"pen", es:"bolígrafo", script:"katakana"},
+ {w:"ギター", tokens:["ギ","タ","ー"], romaji:"gitaa", es:"guitarra", script:"katakana"},
+ {w:"ピアノ", tokens:["ピ","ア","ノ"], romaji:"piano", es:"piano", script:"katakana"},
+ {w:"ニュース", tokens:["ニュ","ー","ス"], romaji:"nyuusu", es:"noticias", script:"katakana"},
+ {w:"スポーツ", tokens:["ス","ポ","ー","ツ"], romaji:"supootsu", es:"deporte", script:"katakana"},
+ {w:"サッカー", tokens:["サ","ッ","カ","ー"], romaji:"sakkaa", es:"fútbol", script:"katakana"},
+ {w:"チーズ", tokens:["チ","ー","ズ"], romaji:"chiizu", es:"queso", script:"katakana"}
+];
+
+const WORD_STORE_KEY = "tenarai_words_v1";
+function loadWordProgress(){
+  try{ return JSON.parse(localStorage.getItem(WORD_STORE_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveWordProgress(p){ localStorage.setItem(WORD_STORE_KEY, JSON.stringify(p)); }
+let wordProgress = loadWordProgress(); // { "ねこ": {reps:0} }
+function getWordEntry(w){
+  if(!wordProgress[w]) wordProgress[w] = {reps:0};
+  return wordProgress[w];
+}
+function tokenAvgReps(word){
+  const arr = SETS[word.script];
+  const valid = word.tokens.filter(t=> arr.some(k=>k.c===t));
+  if(valid.length===0) return 0;
+  const sum = valid.reduce((acc,t)=> acc + getEntry(word.script, t).reps, 0);
+  return sum / valid.length;
+}
+function recommendedWordOrder(){
+  // mezcla: prioriza palabras con caracteres débiles, pero conserva variedad (orden curado como desempate)
+  return WORDS.map((w,i)=>({w, i, weak: tokenAvgReps(w), doneReps: getWordEntry(w.w).reps}))
+    .sort((a,b)=>{
+      if(a.doneReps!==b.doneReps) return a.doneReps - b.doneReps; // primero las menos practicadas
+      if(a.weak!==b.weak) return a.weak - b.weak; // luego las que refuerzan caracteres más débiles
+      return a.i - b.i; // desempate: orden curado original
+    })
+    .map(x=>x.w);
+}
 
 /* ---------------- AUDIO (pronunciación) ---------------- */
 let jaVoice = null;
@@ -556,8 +712,10 @@ let writeIndex = 0;
 function goHome(){
   document.getElementById('screen-home').classList.add('active');
   document.getElementById('screen-set').classList.remove('active');
+  document.getElementById('screen-words').classList.remove('active');
   setActiveNav('nav-home');
   refreshHomeStats();
+  refreshWordStats();
 }
 function setActiveNav(id){
   ['nav-home','nav-hira','nav-kata'].forEach(n=>document.getElementById(n).classList.remove('active'));
@@ -574,6 +732,12 @@ function openSet(set){
 document.querySelectorAll('.set-card').forEach(el=>{
   el.addEventListener('click', ()=> openSet(el.dataset.set));
 });
+document.getElementById('words-card').addEventListener('click', openWords);
+function openWords(){
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-words').classList.add('active');
+  switchWordTab('wleer');
+}
 
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
@@ -705,6 +869,129 @@ function markDone(){
   renderWrite();
 }
 
+/* ---------------- WORDS: reading + dictation ---------------- */
+let wordQueue = [];
+let wordStudyIdx = 0;
+let wordWriteIdx = 0;
+let wordFlipped = false;
+let wctx = null;
+
+function refreshWordQueue(){ wordQueue = recommendedWordOrder(); }
+
+function currentWord(){ return wordQueue[wordStudyIdx % wordQueue.length]; }
+function currentWriteWord(){ return wordQueue[wordWriteIdx % wordQueue.length]; }
+
+function switchWordTab(tab){
+  document.querySelectorAll('#screen-words .tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.getElementById('wtab-leer').style.display = tab==='wleer' ? 'block' : 'none';
+  document.getElementById('wtab-escribir').style.display = tab==='wescribir' ? 'block' : 'none';
+  refreshWordQueue();
+  if(tab==='wleer'){ wordStudyIdx = 0; renderWordStudy(); }
+  if(tab==='wescribir'){ wordWriteIdx = 0; renderWordWrite(); }
+}
+
+function renderWordStudy(){
+  wordFlipped = false;
+  const item = currentWord();
+  document.getElementById('wleer-progress').textContent = (wordStudyIdx%wordQueue.length+1)+" / "+wordQueue.length;
+  const card = document.getElementById('word-flashcard');
+  card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(currentWord().w)">🔊</button><div class="big-kana jp" id="wfc-front" style="font-size:56px;">'+item.w+'</div><div class="hint">Toca para ver el significado</div>';
+}
+function flipWordCard(){
+  const item = currentWord();
+  const card = document.getElementById('word-flashcard');
+  wordFlipped = !wordFlipped;
+  if(wordFlipped){
+    card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(currentWord().w)">🔊</button><div class="romaji-back">'+item.romaji+'</div><div class="mnemonic">'+item.es+'</div>';
+  } else {
+    card.innerHTML = '<button class="speaker-btn" onclick="event.stopPropagation(); speak(currentWord().w)">🔊</button><div class="big-kana jp" id="wfc-front" style="font-size:56px;">'+item.w+'</div><div class="hint">Toca para ver el significado</div>';
+  }
+}
+function wordNext(knew){
+  const item = currentWord();
+  const entry = getWordEntry(item.w);
+  if(knew) entry.reps += 1;
+  saveWordProgress(wordProgress);
+  wordStudyIdx = (wordStudyIdx+1) % wordQueue.length;
+  renderWordStudy();
+}
+
+function setupWordCanvas(){
+  const canvas = document.getElementById('word-draw-canvas');
+  const frame = document.getElementById('word-canvas-frame');
+  canvas.width = frame.clientWidth;
+  canvas.height = frame.clientHeight;
+  wctx = canvas.getContext('2d');
+  wctx.lineWidth = 9;
+  wctx.lineCap = 'round';
+  wctx.lineJoin = 'round';
+  wctx.strokeStyle = '#2B4570';
+  let drawingW=false, lx=0, ly=0;
+  function pos(e){
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return {x: t.clientX-rect.left, y: t.clientY-rect.top};
+  }
+  function start(e){ e.preventDefault(); drawingW=true; const p=pos(e); lx=p.x; ly=p.y; }
+  function move(e){
+    if(!drawingW) return; e.preventDefault();
+    const p = pos(e);
+    wctx.beginPath(); wctx.moveTo(lx,ly); wctx.lineTo(p.x,p.y); wctx.stroke();
+    lx=p.x; ly=p.y;
+  }
+  function end(){ drawingW=false; }
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+function clearWordCanvas(){ if(wctx) wctx.clearRect(0,0,wctx.canvas.width, wctx.canvas.height); }
+function renderWordGuide(){
+  const item = currentWriteWord();
+  const show = document.getElementById('word-guide-toggle').checked;
+  const avg = tokenAvgReps(item);
+  const op = show ? guideOpacity(Math.round(avg)) : 0;
+  const guide = document.getElementById('word-guide-char');
+  guide.textContent = item.w;
+  guide.style.opacity = op;
+}
+function renderWordWrite(){
+  const item = currentWriteWord();
+  document.getElementById('wescribir-meaning').textContent = item.es;
+  document.getElementById('word-romaji-reveal').textContent = '';
+  const entry = getWordEntry(item.w);
+  document.getElementById('word-mastery-tag').textContent = entry.reps+" repeticiones de esta palabra";
+  if(!wctx) setupWordCanvas();
+  clearWordCanvas();
+  renderWordGuide();
+}
+function markWordDone(){
+  const item = currentWriteWord();
+  const entry = getWordEntry(item.w);
+  entry.reps += 1;
+  saveWordProgress(wordProgress);
+  // refuerza también el progreso individual de cada carácter que compone la palabra
+  const arr = SETS[item.script];
+  item.tokens.forEach(t=>{
+    if(arr.some(k=>k.c===t)){
+      const e = getEntry(item.script, t);
+      e.reps += 1;
+    }
+  });
+  saveProgress(progress);
+  document.getElementById('word-romaji-reveal').textContent = item.w+" ("+item.romaji+")";
+  wordWriteIdx = (wordWriteIdx+1) % wordQueue.length;
+  renderWordWrite();
+}
+function refreshWordStats(){
+  let done = 0;
+  WORDS.forEach(w=>{ if(getWordEntry(w.w).reps>0) done++; });
+  document.getElementById('stat-words').textContent = done+" / "+WORDS.length+" palabras";
+  document.getElementById('bar-words').style.width = Math.round(done/WORDS.length*100)+"%";
+}
+
 /* ---------------- PROGRESS GRID ---------------- */
 function renderGrid(){
   const arr = SETS[currentSet];
@@ -727,7 +1014,8 @@ function renderGrid(){
 
 /* ---------------- INIT ---------------- */
 refreshHomeStats();
-window.addEventListener('resize', ()=>{ if(ctx) setupCanvas(); renderGuide(); });
+refreshWordStats();
+window.addEventListener('resize', ()=>{ if(ctx) setupCanvas(); renderGuide(); if(wctx) setupWordCanvas(); renderWordGuide(); });
 
 /* ---------------- PWA: service worker ---------------- */
 if('serviceWorker' in navigator){
