@@ -1322,6 +1322,106 @@ const LESSONS = {
    {q:"えき___あるいていきます。 (hasta la estación)", options:["まで","へ","で","に"], answer:0, explain:"まで marca el punto final de un trayecto."},
    {q:"Traduce: くうこう", options:["Aeropuerto","Estación de tren","Escuela","Empresa"], answer:0, explain:"くうこう significa 'aeropuerto'."}
   ]
+ },
+ 8: {
+  title:"Forma て, ています (continuo)",
+  vocab:[
+   {jp:"いま", romaji:"ima", es:"ahora"},
+   {jp:"まだ", romaji:"mada", es:"todavía (con negativo)"},
+   {jp:"もう", romaji:"mou", es:"ya (con afirmativo)"},
+   {jp:"ゆっくり", romaji:"yukkuri", es:"despacio / con calma"},
+   {jp:"はやく", romaji:"hayaku", es:"rápido / temprano"},
+   {jp:"すみます", romaji:"sumimasu", es:"vivir (residir)"},
+   {jp:"しります", romaji:"shirimasu", es:"saber / conocer"},
+   {jp:"けっこんします", romaji:"kekkon shimasu", es:"casarse"},
+   {jp:"はたらきます", romaji:"hatarakimasu", es:"trabajar"},
+   {jp:"まちます", romaji:"machimasu", es:"esperar"},
+   {jp:"あるきます", romaji:"arukimasu", es:"caminar"},
+   {jp:"はしります", romaji:"hashirimasu", es:"correr"},
+   {jp:"およぎます", romaji:"oyogimasu", es:"nadar"},
+   {jp:"でんわします", romaji:"denwa shimasu", es:"llamar por teléfono"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"いま、なにをしていますか。", romaji:"Ima, nani wo shite imasu ka.", es:"¿Qué estás haciendo ahora?"},
+   {sp:"B", jp:"ほんをよんでいます。", romaji:"Hon wo yonde imasu.", es:"Estoy leyendo un libro."},
+   {sp:"A", jp:"たなかさんは?", romaji:"Tanaka-san wa?", es:"¿Y el señor Tanaka?"},
+   {sp:"B", jp:"たなかさんはでんわしています。", romaji:"Tanaka-san wa denwa shite imasu.", es:"El señor Tanaka está hablando por teléfono."},
+   {sp:"A", jp:"たなかさんはどこにすんでいますか。", romaji:"Tanaka-san wa doko ni sunde imasu ka.", es:"¿Dónde vive el señor Tanaka?"},
+   {sp:"B", jp:"とうきょうにすんでいます。", romaji:"Toukyou ni sunde imasu.", es:"Vive en Tokio."}
+  ],
+  grammar:[
+   {point:"Formación de la forma て", expl:"Según la terminación del verbo en ます: み/び/に → んで (のみます→のんで); き→いて, ぎ→いで (かきます→かいて); い/ち/り→って (かいます→かって, まちます→まって); し→して (はなします→はなして). Irregulares: きます→きて, します→して.", examples:[
+     {jp:"よみます → よんで", es:"leer → forma て"},
+     {jp:"まちます → まって", es:"esperar → forma て"}
+   ]},
+   {point:"ています (acción en progreso)", expl:"Forma て + います indica que la acción está ocurriendo justo en este momento, como 'estar + -ando/-iendo' en español.", examples:[
+     {jp:"たべています。", es:"Estoy comiendo."},
+     {jp:"ほんをよんでいます。", es:"Estoy leyendo un libro."}
+   ]},
+   {point:"ています (estado, no acción en progreso)", expl:"Verbos como すみます (vivir), しります (saber) y けっこんします (casarse) usan ています para describir un ESTADO, no algo que está pasando ahora mismo.", examples:[
+     {jp:"とうきょうにすんでいます。", es:"Vivo en Tokio. (estado, no 'viviendo ahora mismo')"}
+   ]},
+   {point:"まだ vs もう", expl:"まだ (todavía) se usa con una forma negativa para decir que algo no ha pasado aún. もう (ya) se usa con afirmativo para decir que algo ya ocurrió.", examples:[
+     {jp:"まだたべていません。", es:"Todavía no he comido."},
+     {jp:"もうたべました。", es:"Ya comí."}
+   ]}
+  ],
+  quiz:[
+   {q:"¿Cuál es la forma て de のみます?", options:["のんで","のいて","のって","のんます"], answer:0, explain:"Los verbos que terminan en み usan んで en la forma て."},
+   {q:"¿Cuál es la forma て de かいます (comprar)?", options:["かって","かいて","かんで","かます"], answer:0, explain:"Los verbos que terminan en い usan って en la forma て."},
+   {q:"とうきょうにすんで___。 (vivo, estado)", options:["います","ました","です","ます"], answer:0, explain:"すんでいます expresa el estado de 'vivir en un lugar'."},
+   {q:"___たべていません。 (todavía no he comido)", options:["まだ","もう","とても","あまり"], answer:0, explain:"まだ se usa con una forma negativa para decir 'todavía no'."},
+   {q:"Traduce: ゆっくり", options:["Despacio / con calma","Rápido","Ahora","Ya"], answer:0, explain:"ゆっくり significa 'despacio' o 'con calma'."}
+  ]
+ },
+ 9: {
+  title:"てください、てもいいです (peticiones y permiso)",
+  vocab:[
+   {jp:"あけます", romaji:"akemasu", es:"abrir"},
+   {jp:"しめます", romaji:"shimemasu", es:"cerrar"},
+   {jp:"すわります", romaji:"suwarimasu", es:"sentarse"},
+   {jp:"たちます", romaji:"tachimasu", es:"pararse"},
+   {jp:"まど", romaji:"mado", es:"ventana"},
+   {jp:"ドア", romaji:"doa", es:"puerta"},
+   {jp:"でんき", romaji:"denki", es:"luz eléctrica"},
+   {jp:"しずかに", romaji:"shizuka ni", es:"silenciosamente"},
+   {jp:"ちょっと", romaji:"chotto", es:"un poco / un momento"},
+   {jp:"だいじょうぶ", romaji:"daijoubu", es:"está bien / no hay problema"},
+   {jp:"すみません", romaji:"sumimasen", es:"disculpe / perdón"},
+   {jp:"いいですか", romaji:"ii desu ka", es:"¿está bien?"},
+   {jp:"だめです", romaji:"dame desu", es:"no se puede / no está permitido"},
+   {jp:"もちろん", romaji:"mochiron", es:"claro que sí"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"すみません、まどをあけてもいいですか。", romaji:"Sumimasen, mado wo akete mo ii desu ka.", es:"Disculpe, ¿puedo abrir la ventana?"},
+   {sp:"B", jp:"はい、どうぞ。", romaji:"Hai, douzo.", es:"Sí, adelante."},
+   {sp:"A", jp:"ありがとうございます。ここにすわってもいいですか。", romaji:"Arigatou gozaimasu. Koko ni suwatte mo ii desu ka.", es:"Gracias. ¿Puedo sentarme aquí?"},
+   {sp:"B", jp:"すみません、だめです。ここはせんせいのせきです。", romaji:"Sumimasen, dame desu. Koko wa sensei no seki desu.", es:"Lo siento, no se puede. Este es el asiento del maestro."},
+   {sp:"A", jp:"わかりました。ドアをしめてください。", romaji:"Wakarimashita. Doa wo shimete kudasai.", es:"Entendido. Por favor cierre la puerta."},
+   {sp:"B", jp:"はい、わかりました。", romaji:"Hai, wakarimashita.", es:"Sí, entendido."}
+  ],
+  grammar:[
+   {point:"てください (petición cortés)", expl:"Forma て + ください se usa para pedirle a alguien que haga algo: 'por favor haz X'.", examples:[
+     {jp:"ドアをしめてください。", es:"Por favor cierre la puerta."}
+   ]},
+   {point:"てもいいですか (pedir permiso)", expl:"Forma て + もいいですか pregunta si está permitido hacer algo: '¿puedo...?'.", examples:[
+     {jp:"まどをあけてもいいですか。", es:"¿Puedo abrir la ventana?"}
+   ]},
+   {point:"Responder a una petición de permiso", expl:"Para conceder: はい、どうぞ (sí, adelante). Para negar cortésmente: すみません、だめです o いいえ、ちょっと...", examples:[
+     {jp:"はい、どうぞ。", es:"Sí, adelante."},
+     {jp:"すみません、だめです。", es:"Lo siento, no se puede."}
+   ]},
+   {point:"てはいけません (prohibición)", expl:"Forma て + はいけません significa 'no se debe / está prohibido'. Es la contraparte negativa fuerte de てもいいです.", examples:[
+     {jp:"ここでたべてはいけません。", es:"No se debe comer aquí."}
+   ]}
+  ],
+  quiz:[
+   {q:"ドアをしめて___。 (por favor)", options:["ください","もいいですか","だめです","どうぞ"], answer:0, explain:"てください se usa para pedir cortésmente que alguien haga algo."},
+   {q:"まどをあけて___か。 (¿puedo?)", options:["もいいです","ください","だめです","どうぞ"], answer:0, explain:"てもいいですか pregunta si está permitido hacer algo."},
+   {q:"¿Cómo concedes permiso cortésmente?", options:["はい、どうぞ","だめです","すみません","ちょっと"], answer:0, explain:"はい、どうぞ significa 'sí, adelante'."},
+   {q:"ここでたべて___。 (no se debe comer aquí)", options:["はいけません","もいいです","ください","どうぞ"], answer:0, explain:"てはいけません expresa una prohibición: 'no se debe'."},
+   {q:"Traduce: だいじょうぶ", options:["Está bien / no hay problema","No está permitido","Disculpe","Claro que sí"], answer:0, explain:"だいじょうぶ significa 'está bien' o 'no hay problema'."}
+  ]
  }
 };
 
