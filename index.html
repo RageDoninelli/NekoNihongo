@@ -1422,6 +1422,287 @@ const LESSONS = {
    {q:"ここでたべて___。 (no se debe comer aquí)", options:["はいけません","もいいです","ください","どうぞ"], answer:0, explain:"てはいけません expresa una prohibición: 'no se debe'."},
    {q:"Traduce: だいじょうぶ", options:["Está bien / no hay problema","No está permitido","Disculpe","Claro que sí"], answer:0, explain:"だいじょうぶ significa 'está bien' o 'no hay problema'."}
   ]
+ },
+ 10: {
+  title:"Forma simple (diccionario y negativa)",
+  vocab:[
+   {jp:"たべる", romaji:"taberu", es:"comer (diccionario)"},
+   {jp:"のむ", romaji:"nomu", es:"beber (diccionario)"},
+   {jp:"みる", romaji:"miru", es:"ver (diccionario)"},
+   {jp:"きく", romaji:"kiku", es:"oír / preguntar (diccionario)"},
+   {jp:"はなす", romaji:"hanasu", es:"hablar (diccionario)"},
+   {jp:"よむ", romaji:"yomu", es:"leer (diccionario)"},
+   {jp:"かく", romaji:"kaku", es:"escribir (diccionario)"},
+   {jp:"いく", romaji:"iku", es:"ir (diccionario)"},
+   {jp:"くる", romaji:"kuru", es:"venir (diccionario)"},
+   {jp:"かえる", romaji:"kaeru", es:"regresar (diccionario)"},
+   {jp:"する", romaji:"suru", es:"hacer (diccionario)"},
+   {jp:"うん", romaji:"un", es:"sí (casual)"},
+   {jp:"ううん", romaji:"uun", es:"no (casual)"},
+   {jp:"やすみ", romaji:"yasumi", es:"descanso / día libre"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"あした、なにする?", romaji:"Ashita, nani suru?", es:"¿Qué harás mañana? (casual)"},
+   {sp:"B", jp:"ほんをよむ。それから、ともだちにあう。", romaji:"Hon wo yomu. Sorekara, tomodachi ni au.", es:"Leeré un libro. Después, veré a un amigo. (casual)"},
+   {sp:"A", jp:"がっこうにいく?", romaji:"Gakkou ni iku?", es:"¿Vas a la escuela? (casual)"},
+   {sp:"B", jp:"ううん、いかない。やすみ。", romaji:"Uun, ikanai. Yasumi.", es:"No, no voy. Es día libre. (casual)"}
+  ],
+  grammar:[
+   {point:"Forma de diccionario (simple, presente/futuro afirmativo)", expl:"Es la forma 'base' del verbo, la que aparece en el diccionario. Se usa en habla casual con amigos y familia, y es la base de muchas conjugaciones futuras (potencial, condicional, etc.).", examples:[
+     {jp:"たべます → たべる", es:"comer"},
+     {jp:"いきます → いく", es:"ir"}
+   ]},
+   {point:"Forma negativa simple (ない形)", expl:"Se usa en habla casual para negar. Los verbos irregulares cambian por completo: きます→こない, します→しない.", examples:[
+     {jp:"たべない。", es:"No como. (casual)"},
+     {jp:"いかない。", es:"No voy. (casual)"}
+   ]},
+   {point:"うん / ううん (sí / no casuales)", expl:"Reemplazan a はい/いいえ en conversación informal entre amigos o familia.", examples:[
+     {jp:"いく? — うん、いく。", es:"¿Vas? — Sí, voy."}
+   ]},
+   {point:"だ (cópula casual)", expl:"Reemplaza a です en habla informal, aunque frecuentemente se omite en preguntas casuales.", examples:[
+     {jp:"がくせいだ。", es:"Soy estudiante. (casual, vs がくせいです formal)"}
+   ]}
+  ],
+  quiz:[
+   {q:"¿Cuál es la forma de diccionario de のみます?", options:["のむ","のみ","のんで","のまない"], answer:0, explain:"のみます en forma de diccionario es のむ."},
+   {q:"¿Cuál es la forma negativa casual de いきます?", options:["いかない","いきない","いくない","いかん"], answer:0, explain:"いきます en negativo casual es いかない."},
+   {q:"Respuesta afirmativa casual a una pregunta:", options:["うん","はい","そうです","もちろん"], answer:0, explain:"うん es la forma casual de decir 'sí', usada entre amigos."},
+   {q:"¿Cuál es la cópula casual equivalente a です?", options:["だ","でした","じゃ","だよ"], answer:0, explain:"だ reemplaza a です en habla informal."},
+   {q:"Traduce: やすみ", options:["Descanso / día libre","Trabajo","Escuela","Vacaciones largas"], answer:0, explain:"やすみ significa 'descanso' o 'día libre'."}
+  ]
+ },
+ 11: {
+  title:"Adjetivos en pasado y negativo",
+  vocab:[
+   {jp:"いそがしい", romaji:"isogashii", es:"ocupado"},
+   {jp:"つまらない", romaji:"tsumaranai", es:"aburrido"},
+   {jp:"たのしい", romaji:"tanoshii", es:"divertido"},
+   {jp:"うれしい", romaji:"ureshii", es:"feliz / contento"},
+   {jp:"かなしい", romaji:"kanashii", es:"triste"},
+   {jp:"さむい", romaji:"samui", es:"frío (clima)"},
+   {jp:"あつい", romaji:"atsui", es:"caliente / calor"},
+   {jp:"すずしい", romaji:"suzushii", es:"fresco"},
+   {jp:"あたたかい", romaji:"atatakai", es:"cálido / tibio"},
+   {jp:"からい", romaji:"karai", es:"picante"},
+   {jp:"あまい", romaji:"amai", es:"dulce"},
+   {jp:"まずい", romaji:"mazui", es:"no sabe bien"},
+   {jp:"てんき", romaji:"tenki", es:"clima"},
+   {jp:"きせつ", romaji:"kisetsu", es:"estación del año"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"きのうのてんきはどうでしたか。", romaji:"Kinou no tenki wa dou deshita ka.", es:"¿Cómo estuvo el clima ayer?"},
+   {sp:"B", jp:"とてもさむかったです。", romaji:"Totemo samukatta desu.", es:"Estuvo muy frío."},
+   {sp:"A", jp:"りょこうはたのしかったですか。", romaji:"Ryokou wa tanoshikatta desu ka.", es:"¿El viaje fue divertido?"},
+   {sp:"B", jp:"はい、たのしかったです。でも、ちょっといそがしかったです。", romaji:"Hai, tanoshikatta desu. Demo, chotto isogashikatta desu.", es:"Sí, fue divertido. Pero fue un poco ajetreado."},
+   {sp:"A", jp:"りょうりはどうでしたか。", romaji:"Ryouri wa dou deshita ka.", es:"¿Cómo estuvo la comida?"},
+   {sp:"B", jp:"あまりおいしくなかったです。", romaji:"Amari oishikunakatta desu.", es:"No estuvo muy rica."}
+  ],
+  grammar:[
+   {point:"Adjetivos い — pasado afirmativo", expl:"Se cambia la い final por かった.", examples:[
+     {jp:"たのしい → たのしかった", es:"divertido → fue divertido"}
+   ]},
+   {point:"Adjetivos い — pasado negativo", expl:"Se cambia la い final por くなかった.", examples:[
+     {jp:"おいしい → おいしくなかった", es:"rico → no estuvo rico"}
+   ]},
+   {point:"Adjetivos な — pasado", expl:"Igual que los sustantivos con です: afirmativo でした (formal) / だった (casual); negativo じゃなかったです (formal) / じゃなかった (casual).", examples:[
+     {jp:"しずかでした。", es:"Estuvo tranquilo. (formal)"},
+     {jp:"しずかじゃなかった。", es:"No estuvo tranquilo. (casual)"}
+   ]},
+   {point:"Resumen: las 4 formas de un adjetivo い", expl:"Presente afirmativo: い। Presente negativo: くない। Pasado afirmativo: かった। Pasado negativo: くなかった.", examples:[
+     {jp:"さむい / さむくない / さむかった / さむくなかった", es:"frío / no frío / fue frío / no fue frío"}
+   ]}
+  ],
+  quiz:[
+   {q:"¿Cuál es el pasado de たのしい?", options:["たのしかった","たのしいでした","たのしくない","たのしだった"], answer:0, explain:"El pasado afirmativo de un adjetivo い se forma cambiando い por かった."},
+   {q:"¿Cuál es el pasado negativo de おいしい?", options:["おいしくなかった","おいしくない","おいしかった","おいしいじゃない"], answer:0, explain:"El pasado negativo de un adjetivo い se forma cambiando い por くなかった."},
+   {q:"¿Cuál es el pasado casual de しずか (adjetivo な)?", options:["しずかだった","しずかかった","しずかでした","しずかない"], answer:0, explain:"Los adjetivos な usan だった en pasado casual, igual que los sustantivos."},
+   {q:"¿Cuál es el negativo pasado casual de しずか?", options:["しずかじゃなかった","しずかくなかった","しずかではない","しずかない"], answer:0, explain:"Los adjetivos な se niegan en pasado con じゃなかった."},
+   {q:"Traduce: いそがしい", options:["Ocupado","Aburrido","Triste","Feliz"], answer:0, explain:"いそがしい significa 'ocupado'."}
+  ]
+ },
+ 12: {
+  title:"Comparaciones: より, ほう",
+  vocab:[
+   {jp:"より", romaji:"yori", es:"que (comparativo)"},
+   {jp:"ほう", romaji:"hou", es:"lado / opción (en comparaciones)"},
+   {jp:"いちばん", romaji:"ichiban", es:"el más (superlativo)"},
+   {jp:"どちら", romaji:"dochira", es:"cuál (entre dos opciones)"},
+   {jp:"どれ", romaji:"dore", es:"cuál (entre tres o más opciones)"},
+   {jp:"つよい", romaji:"tsuyoi", es:"fuerte"},
+   {jp:"よわい", romaji:"yowai", es:"débil"},
+   {jp:"はやい", romaji:"hayai", es:"rápido / temprano"},
+   {jp:"おそい", romaji:"osoi", es:"lento / tarde"},
+   {jp:"ちかい", romaji:"chikai", es:"cerca (distancia)"},
+   {jp:"とおい", romaji:"tooi", es:"lejos"},
+   {jp:"なつ", romaji:"natsu", es:"verano"},
+   {jp:"ふゆ", romaji:"fuyu", es:"invierno"},
+   {jp:"はる", romaji:"haru", es:"primavera"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"なつとふゆとどちらがすきですか。", romaji:"Natsu to fuyu to dochira ga suki desu ka.", es:"¿Cuál te gusta más, el verano o el invierno?"},
+   {sp:"B", jp:"なつのほうがすきです。", romaji:"Natsu no hou ga suki desu.", es:"Me gusta más el verano."},
+   {sp:"B", jp:"なつはふゆよりあたたかいです。", romaji:"Natsu wa fuyu yori atatakai desu.", es:"El verano es más cálido que el invierno."},
+   {sp:"A", jp:"にほんでいちばんたかいやまはなんですか。", romaji:"Nihon de ichiban takai yama wa nan desu ka.", es:"¿Cuál es la montaña más alta de Japón?"},
+   {sp:"B", jp:"ふじさんです。いちばんたかいです。", romaji:"Fujisan desu. Ichiban takai desu.", es:"Es el monte Fuji. Es el más alto."}
+  ],
+  grammar:[
+   {point:"Comparativo con より", expl:"Estructura: [A]は[B]より[adjetivo]です — 'A es más [adjetivo] que B'.", examples:[
+     {jp:"なつはふゆよりあついです。", es:"El verano es más caliente que el invierno."}
+   ]},
+   {point:"のほうが (preferencia entre dos opciones)", expl:"Se usa para decir cuál de dos opciones se prefiere: [A]のほうがすきです.", examples:[
+     {jp:"なつのほうがすきです。", es:"Me gusta más el verano (de los dos)."}
+   ]},
+   {point:"Superlativo con いちばん", expl:"いちばん + adjetivo significa 'el/la más ___'.", examples:[
+     {jp:"いちばんたかいやまです。", es:"Es la montaña más alta."}
+   ]},
+   {point:"どちら vs どれ", expl:"どちら se usa para elegir entre DOS opciones. どれ se usa para elegir entre TRES o más.", examples:[
+     {jp:"なつとふゆとどちらがすきですか。", es:"¿Cuál te gusta más, verano o invierno? (2 opciones)"},
+     {jp:"なつとふゆとはると、どれがすきですか。", es:"¿Cuál te gusta más: verano, invierno o primavera? (3 opciones)"}
+   ]}
+  ],
+  quiz:[
+   {q:"なつはふゆ___あついです。 (más que)", options:["より","ほう","いちばん","どちら"], answer:0, explain:"より marca el punto de comparación: 'más que B'."},
+   {q:"なつ___ほうがすきです。 (prefiero el verano)", options:["の","が","を","に"], answer:0, explain:"の conecta el sustantivo con ほう en una comparación de preferencia."},
+   {q:"___たかいやまです。 (la montaña más alta)", options:["いちばん","より","ほう","どちら"], answer:0, explain:"いちばん + adjetivo forma el superlativo: 'el más ___'."},
+   {q:"Para elegir entre DOS opciones usarías:", options:["どちら","どれ","なにで","なんじ"], answer:0, explain:"どちら se usa específicamente cuando hay solo dos opciones."},
+   {q:"Traduce: つよい", options:["Fuerte","Débil","Rápido","Lento"], answer:0, explain:"つよい significa 'fuerte'."}
+  ]
+ },
+ 13: {
+  title:"Contadores y cantidades",
+  vocab:[
+   {jp:"ひとつ", romaji:"hitotsu", es:"uno (contador general)"},
+   {jp:"ふたつ", romaji:"futatsu", es:"dos (contador general)"},
+   {jp:"みっつ", romaji:"mittsu", es:"tres (contador general)"},
+   {jp:"ひとり", romaji:"hitori", es:"una persona"},
+   {jp:"ふたり", romaji:"futari", es:"dos personas"},
+   {jp:"さんにん", romaji:"san-nin", es:"tres personas"},
+   {jp:"まい", romaji:"mai", es:"contador de objetos planos (papel, platos)"},
+   {jp:"ひき", romaji:"hiki", es:"contador de animales pequeños"},
+   {jp:"だい", romaji:"dai", es:"contador de máquinas / vehículos"},
+   {jp:"さつ", romaji:"satsu", es:"contador de libros / revistas"},
+   {jp:"こ", romaji:"ko", es:"contador general de objetos pequeños"},
+   {jp:"なんまい", romaji:"nanmai", es:"¿cuántos (objetos planos)?"},
+   {jp:"なんにん", romaji:"nannin", es:"¿cuántas personas?"},
+   {jp:"いくつ", romaji:"ikutsu", es:"¿cuántos? (contador general)"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"このかみ、なんまいありますか。", romaji:"Kono kami, nanmai arimasu ka.", es:"¿Cuántas hojas de papel hay?"},
+   {sp:"B", jp:"ごまいあります。", romaji:"Gomai arimasu.", es:"Hay cinco hojas."},
+   {sp:"A", jp:"きょうしつにがくせいがなんにんいますか。", romaji:"Kyoushitsu ni gakusei ga nannin imasu ka.", es:"¿Cuántos estudiantes hay en el salón?"},
+   {sp:"B", jp:"にじゅうにんいます。", romaji:"Nijuu-nin imasu.", es:"Hay veinte."},
+   {sp:"A", jp:"ねこはなんびきいますか。", romaji:"Neko wa nanbiki imasu ka.", es:"¿Cuántos gatos hay?"},
+   {sp:"B", jp:"いっぴきいます。", romaji:"Ippiki imasu.", es:"Hay uno."}
+  ],
+  grammar:[
+   {point:"Contadores (助数詞)", expl:"En japonés, para contar objetos se usa un número + un sufijo contador según el TIPO de objeto, no basta con el número solo. Algunos comunes: つ (general), 人/にん (personas), 枚/まい (objetos planos), 匹/ひき (animales pequeños), 台/だい (máquinas/vehículos), 冊/さつ (libros).", examples:[]},
+   {point:"Contador general つ (1-10)", expl:"Serie irregular que se usa para objetos sin contador propio, o cuando no se sabe cuál usar: ひとつ・ふたつ・みっつ・よっつ・いつつ・むっつ・ななつ・やっつ・ここのつ・とお。", examples:[]},
+   {point:"Contador de personas (irregular en 1 y 2)", expl:"ひとり (1 persona) y ふたり (2 personas) son irregulares. Desde 3 es regular: さんにん、よにん、ごにん...", examples:[
+     {jp:"ひとりで いきます。", es:"Voy solo (una persona)."}
+   ]},
+   {point:"Cambios de sonido en algunos contadores", expl:"Con contadores como 匹 (ひき), los números 1, 3, 6, 8 y 10 cambian de sonido: いっぴき、さんびき、ろっぴき、はっぴき、じゅっぴき。Se aprenden con la práctica, no hace falta memorizarlos todos de una vez.", examples:[]}
+  ],
+  quiz:[
+   {q:"¿Qué contador usarías para animales pequeños?", options:["匹（ひき）","枚（まい）","人（にん）","台（だい）"], answer:0, explain:"匹（ひき）es el contador para animales pequeños."},
+   {q:"¿Cómo se dice 'una persona'?", options:["ひとり","いちにん","ひとつ","いちまい"], answer:0, explain:"ひとり es la forma irregular para contar 1 persona."},
+   {q:"¿Cómo se dice 'dos personas'?", options:["ふたり","ににん","ふたつ","にまい"], answer:0, explain:"ふたり es la forma irregular para contar 2 personas."},
+   {q:"¿Qué contador usarías para hojas de papel?", options:["枚（まい）","匹（ひき）","台（だい）","冊（さつ）"], answer:0, explain:"枚（まい）se usa para objetos planos como papel."},
+   {q:"Traduce: いくつ", options:["¿Cuántos? (contador general)","¿Cuántas personas?","¿Dónde?","¿Cuándo?"], answer:0, explain:"いくつ pregunta 'cuántos' con el contador general."}
+  ]
+ },
+ 14: {
+  title:"Volitivo ましょう, sugerencias",
+  vocab:[
+   {jp:"いっしょに", romaji:"issho ni", es:"juntos"},
+   {jp:"つぎ", romaji:"tsugi", es:"próximo / siguiente"},
+   {jp:"しあい", romaji:"shiai", es:"partido / juego (deporte)"},
+   {jp:"えいが", romaji:"eiga", es:"película"},
+   {jp:"コンサート", romaji:"konsaato", es:"concierto"},
+   {jp:"パーティー", romaji:"paatii", es:"fiesta"},
+   {jp:"のります", romaji:"norimasu", es:"subir / montar (un vehículo)"},
+   {jp:"あそびます", romaji:"asobimasu", es:"jugar / pasar el rato"},
+   {jp:"さそいます", romaji:"sasoimasu", es:"invitar"},
+   {jp:"たのしみ", romaji:"tanoshimi", es:"algo que se espera con ganas"},
+   {jp:"ぜひ", romaji:"zehi", es:"con mucho gusto / sin falta"},
+   {jp:"きょうみ", romaji:"kyoumi", es:"interés"},
+   {jp:"ダンス", romaji:"dansu", es:"baile"},
+   {jp:"もうすぐ", romaji:"mou sugu", es:"muy pronto"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"こんばん、いっしょにえいがをみませんか。", romaji:"Konban, issho ni eiga wo mimasen ka.", es:"¿Quieres ver una película conmigo esta noche?"},
+   {sp:"B", jp:"いいですね。みましょう。", romaji:"Ii desu ne. Mimashou.", es:"Suena bien. Veámosla."},
+   {sp:"A", jp:"そのあと、パーティーにいきませんか。", romaji:"Sono ato, paatii ni ikimasen ka.", es:"¿Quieres ir a una fiesta después?"},
+   {sp:"B", jp:"ぜひ!たのしみです。", romaji:"Zehi! Tanoshimi desu.", es:"¡Con gusto! Tengo ganas."}
+  ],
+  grammar:[
+   {point:"ましょう (volitivo, 'hagamos')", expl:"Se forma cambiando ます por ましょう. Se usa para proponer hacer algo juntos.", examples:[
+     {jp:"みましょう。", es:"Veámoslo."}
+   ]},
+   {point:"ませんか (invitación cortés)", expl:"Se forma cambiando ます por ませんか. Es una invitación más suave que ましょう, porque deja abierta la posibilidad de que la otra persona diga que no.", examples:[
+     {jp:"えいがをみませんか。", es:"¿Quieres ver una película?"}
+   ]},
+   {point:"Matiz entre ましょう y ませんか", expl:"ませんか es más cortés porque no asume la respuesta. ましょう suena más directo, útil cuando ya se sabe que la otra persona está de acuerdo.", examples:[]},
+   {point:"いっしょに (juntos)", expl:"Se usa frecuentemente junto con ましょう o ませんか para proponer hacer algo en compañía.", examples:[
+     {jp:"いっしょにいきましょう。", es:"Vayamos juntos."}
+   ]}
+  ],
+  quiz:[
+   {q:"えいがをみ___か。 (invitación cortés)", options:["ませんか","ましょう","ます","ました"], answer:0, explain:"ませんか es una invitación cortés que deja abierta la respuesta."},
+   {q:"いっしょにみ___。 (propongamos hacerlo)", options:["ましょう","ませんか","ます","ました"], answer:0, explain:"ましょう propone hacer algo juntos de forma más directa."},
+   {q:"¿Cuál es más cortés y deja abierta la respuesta?", options:["ませんか","ましょう","ました","ません"], answer:0, explain:"ませんか no asume que la otra persona dirá que sí."},
+   {q:"Traduce: いっしょに", options:["Juntos","Solo","Rápido","Despacio"], answer:0, explain:"いっしょに significa 'juntos'."},
+   {q:"Traduce: たのしみ", options:["Algo que se espera con ganas","Algo aburrido","Algo triste","Algo caro"], answer:0, explain:"たのしみ expresa la ilusión de esperar algo con ganas."}
+  ]
+ },
+ 15: {
+  title:"Repaso N5 y examen corto",
+  vocab:[
+   {jp:"わたし", romaji:"watashi", es:"yo (Lección 1)"},
+   {jp:"どこ", romaji:"doko", es:"dónde (Lección 2)"},
+   {jp:"きれい", romaji:"kirei", es:"bonito (Lección 3)"},
+   {jp:"よみます", romaji:"yomimasu", es:"leer (Lección 4)"},
+   {jp:"あした", romaji:"ashita", es:"mañana (Lección 5)"},
+   {jp:"てつだいます", romaji:"tetsudaimasu", es:"ayudar (Lección 6)"},
+   {jp:"でんしゃ", romaji:"densha", es:"tren (Lección 7)"},
+   {jp:"もう", romaji:"mou", es:"ya (Lección 8)"},
+   {jp:"ちょっと", romaji:"chotto", es:"un poco (Lección 9)"},
+   {jp:"やすみ", romaji:"yasumi", es:"descanso (Lección 10)"},
+   {jp:"たのしい", romaji:"tanoshii", es:"divertido (Lección 11)"},
+   {jp:"いちばん", romaji:"ichiban", es:"el más (Lección 12)"},
+   {jp:"なんにん", romaji:"nannin", es:"¿cuántas personas? (Lección 13)"},
+   {jp:"いっしょに", romaji:"issho ni", es:"juntos (Lección 14)"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"はじめまして。わたしはピナです。がくせいです。", romaji:"Hajimemashite. Watashi wa Pina desu. Gakusei desu.", es:"Mucho gusto. Yo soy Pina. Soy estudiante."},
+   {sp:"B", jp:"はじめまして。よろしくおねがいします。", romaji:"Hajimemashite. Yoroshiku onegaishimasu.", es:"Mucho gusto. Un placer conocerte."},
+   {sp:"A", jp:"きょう、がっこうへいきます。がっこうはどこですか。", romaji:"Kyou, gakkou e ikimasu. Gakkou wa doko desu ka.", es:"Hoy voy a la escuela. ¿Dónde está la escuela?"},
+   {sp:"B", jp:"がっこうはえきのちかくにあります。", romaji:"Gakkou wa eki no chikaku ni arimasu.", es:"La escuela está cerca de la estación."},
+   {sp:"A", jp:"きのう、なにをしましたか。", romaji:"Kinou, nani wo shimashita ka.", es:"¿Qué hiciste ayer?"},
+   {sp:"B", jp:"ほんをよんで、それからともだちとあそびました。", romaji:"Hon wo yonde, sorekara tomodachi to asobimashita.", es:"Leí un libro, y después pasé el rato con un amigo."},
+   {sp:"A", jp:"たのしかったですか。", romaji:"Tanoshikatta desu ka.", es:"¿Fue divertido?"},
+   {sp:"B", jp:"はい、とてもたのしかったです。", romaji:"Hai, totemo tanoshikatta desu.", es:"Sí, fue muy divertido."},
+   {sp:"A", jp:"こんばん、いっしょにえいがをみませんか。", romaji:"Konban, issho ni eiga wo mimasen ka.", es:"¿Quieres ver una película conmigo esta noche?"},
+   {sp:"B", jp:"いいですね!いきましょう。", romaji:"Ii desu ne! Ikimashou.", es:"¡Suena bien! Vayamos."}
+  ],
+  grammar:[
+   {point:"Partículas clave de N5", expl:"は (tema), が (sujeto con すき/きらい y con あります/います), を (objeto directo), に (existencia y hora específica), で (lugar de acción y medio de transporte), へ (dirección), と (y, también 'con'), も (también), の (posesión/conexión), より (comparación), まで (hasta).", examples:[]},
+   {point:"Verbos: presente, pasado y negativo", expl:"Afirmativo presente/futuro: ます। Negativo: ません। Pasado afirmativo: ました। Pasado negativo: ませんでした। Forma て para pedir (てください), pedir permiso (てもいいですか) y acción continua (ています). Forma de diccionario y ない para el habla casual.", examples:[]},
+   {point:"Adjetivos い y な", expl:"い-adjetivos: い (presente) / くない (negativo) / かった (pasado) / くなかった (pasado negativo). な-adjetivos: だ/です (presente) / じゃない (negativo) / だった/でした (pasado) / じゃなかった (pasado negativo).", examples:[]},
+   {point:"Existencia y comparación", expl:"あります (objetos) / います (seres vivos) para decir 'hay'. より para comparar, のほうが para preferir, いちばん para el superlativo.", examples:[]},
+   {point:"Invitaciones y peticiones", expl:"ましょう (hagamos), ませんか (¿no quieres...?, más cortés), てください (por favor haz X), てもいいですか (¿puedo...?).", examples:[]}
+  ],
+  quiz:[
+   {q:"わたし___がくせいです。", options:["は","が","を","で"], answer:0, explain:"は marca el tema de la oración (Lección 1)."},
+   {q:"¿Cuál usas para 'hay un gato'?", options:["います","あります","です","あります"], answer:0, explain:"います se usa para seres vivos (Lección 2)."},
+   {q:"すし___すきです。", options:["は","が","を","に"], answer:1, explain:"が marca el objeto de すき/きらい (Lección 3)."},
+   {q:"Forma ます de 'comer':", options:["たべます","たべました","たべて","たべない"], answer:0, explain:"たべます es la forma ます presente/futuro (Lección 4)."},
+   {q:"Pasado de たべます:", options:["たべました","たべます","たべません","たべて"], answer:0, explain:"ました es el pasado afirmativo de ます (Lección 5)."},
+   {q:"がっこう___いきます。 (destino)", options:["へ","を","が","と"], answer:0, explain:"へ marca la dirección hacia la que uno se mueve (Lección 7)."},
+   {q:"ドアをしめて___。 (por favor)", options:["ください","もいいです","ました","ましょう"], answer:0, explain:"てください pide cortésmente que alguien haga algo (Lección 9)."},
+   {q:"Pasado de たのしい:", options:["たのしかった","たのしいでした","たのしくない","たのしだった"], answer:0, explain:"かった es el pasado de un adjetivo い (Lección 11)."},
+   {q:"___たかいやまです。 (la montaña más alta)", options:["いちばん","より","ほう","どちら"], answer:0, explain:"いちばん forma el superlativo (Lección 12)."},
+   {q:"¿Cómo se dice 'una persona'?", options:["ひとり","いちにん","ひとつ","いちまい"], answer:0, explain:"ひとり es la forma irregular para contar 1 persona (Lección 13)."}
+  ]
  }
 };
 
