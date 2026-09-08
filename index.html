@@ -1224,6 +1224,104 @@ const LESSONS = {
    {q:"きのう___べんきょうしました。 ¿Qué va en el espacio?", options:["に","で","を","ninguna partícula"], answer:3, explain:"Expresiones generales de tiempo como きのう no llevan partícula."},
    {q:"Traduce: らいしゅう", options:["La semana pasada","Esta semana","La próxima semana","Todos los días"], answer:2, explain:"らいしゅう significa 'la próxima semana'."}
   ]
+ },
+ 6: {
+  title:"Partícula を, verbos de acción cotidiana",
+  vocab:[
+   {jp:"つくります", romaji:"tsukurimasu", es:"hacer / preparar"},
+   {jp:"あらいます", romaji:"araimasu", es:"lavar"},
+   {jp:"うたいます", romaji:"utaimasu", es:"cantar"},
+   {jp:"ならいます", romaji:"naraimasu", es:"aprender"},
+   {jp:"てつだいます", romaji:"tetsudaimasu", es:"ayudar"},
+   {jp:"そうじします", romaji:"souji shimasu", es:"limpiar"},
+   {jp:"せんたくします", romaji:"sentaku shimasu", es:"lavar la ropa"},
+   {jp:"うんてんします", romaji:"unten shimasu", es:"conducir"},
+   {jp:"うんどうします", romaji:"undou shimasu", es:"hacer ejercicio"},
+   {jp:"りょうりします", romaji:"ryouri shimasu", es:"cocinar"},
+   {jp:"とります", romaji:"torimasu", es:"tomar / sacar (una foto)"},
+   {jp:"と", romaji:"to", es:"y (para unir sustantivos)"},
+   {jp:"も", romaji:"mo", es:"también"},
+   {jp:"しゃしん", romaji:"shashin", es:"foto"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"しゅうまつ、なにをしますか。", romaji:"Shuumatsu, nani wo shimasu ka.", es:"¿Qué haces el fin de semana?"},
+   {sp:"B", jp:"そうじとせんたくをします。", romaji:"Souji to sentaku wo shimasu.", es:"Hago limpieza y lavo la ropa."},
+   {sp:"B", jp:"そのあと、りょうりします。", romaji:"Sono ato, ryouri shimasu.", es:"Después de eso, cocino."},
+   {sp:"A", jp:"わたしもそうじをします。", romaji:"Watashi mo souji wo shimasu.", es:"Yo también hago limpieza."},
+   {sp:"B", jp:"しゃしんもとりますか。", romaji:"Shashin mo torimasu ka.", es:"¿También tomas fotos?"},
+   {sp:"A", jp:"はい、とります。", romaji:"Hai, torimasu.", es:"Sí, tomo."}
+  ],
+  grammar:[
+   {point:"と (partícula 'y', para unir sustantivos)", expl:"Conecta dos o más sustantivos en una lista cerrada, como 'y' en español. Solo une sustantivos, no oraciones completas (eso se ve más adelante).", examples:[
+     {jp:"そうじとせんたくをします。", es:"Hago limpieza y lavo la ropa."}
+   ]},
+   {point:"も (partícula 'también')", expl:"Reemplaza a は o が cuando se quiere decir 'también'. Va justo después del sustantivo.", examples:[
+     {jp:"わたしもそうじをします。", es:"Yo también hago limpieza."}
+   ]},
+   {point:"Más verbos con する", expl:"Se refuerza el patrón sustantivo+します visto en la Lección 4, con verbos de tareas cotidianas.", examples:[
+     {jp:"そうじします。", es:"Limpio."},
+     {jp:"うんどうします。", es:"Hago ejercicio."}
+   ]},
+   {point:"を con listas de objetos", expl:"Cuando hay una lista de sustantivos unida con と, la partícula を va una sola vez, después de toda la lista completa.", examples:[
+     {jp:"パンとぎゅうにゅうをかいます。", es:"Compro pan y leche."}
+   ]}
+  ],
+  quiz:[
+   {q:"そうじ___せんたくをします。 (uniendo dos sustantivos)", options:["と","も","を","は"], answer:0, explain:"と une sustantivos en una lista, como 'y' en español."},
+   {q:"わたし___そうじをします。 (también)", options:["と","も","を","は"], answer:1, explain:"も significa 'también' y reemplaza a は o が."},
+   {q:"¿Cuál verbo significa 'cocinar'?", options:["りょうりします","そうじします","せんたくします","うんてんします"], answer:0, explain:"りょうりします significa 'cocinar'."},
+   {q:"パンとぎゅうにゅう___かいます。 ¿Qué va en el espacio?", options:["を","と","も","に"], answer:0, explain:"を marca el objeto directo, incluso cuando es una lista con と."},
+   {q:"Traduce: てつだいます", options:["Ayudar","Lavar","Aprender","Cantar"], answer:0, explain:"てつだいます significa 'ayudar'."}
+  ]
+ },
+ 7: {
+  title:"へ・に, direcciones y transporte",
+  vocab:[
+   {jp:"がっこう", romaji:"gakkou", es:"escuela"},
+   {jp:"かいしゃ", romaji:"kaisha", es:"empresa"},
+   {jp:"えき", romaji:"eki", es:"estación de tren"},
+   {jp:"くうこう", romaji:"kuukou", es:"aeropuerto"},
+   {jp:"でんしゃ", romaji:"densha", es:"tren"},
+   {jp:"バス", romaji:"basu", es:"autobús"},
+   {jp:"タクシー", romaji:"takushii", es:"taxi"},
+   {jp:"ひこうき", romaji:"hikouki", es:"avión"},
+   {jp:"じてんしゃ", romaji:"jitensha", es:"bicicleta"},
+   {jp:"ふね", romaji:"fune", es:"barco"},
+   {jp:"くるま", romaji:"kuruma", es:"carro / vehículo"},
+   {jp:"あるいて", romaji:"aruite", es:"a pie / caminando"},
+   {jp:"どこへ", romaji:"doko e", es:"¿a dónde?"},
+   {jp:"なにで", romaji:"nani de", es:"¿en qué (medio de transporte)?"}
+  ],
+  dialogue:[
+   {sp:"A", jp:"がっこうへなにでいきますか。", romaji:"Gakkou e nani de ikimasu ka.", es:"¿En qué vas a la escuela?"},
+   {sp:"B", jp:"でんしゃでいきます。", romaji:"Densha de ikimasu.", es:"Voy en tren."},
+   {sp:"B", jp:"えきまであるいていきます。", romaji:"Eki made aruite ikimasu.", es:"Voy caminando hasta la estación."},
+   {sp:"A", jp:"かいしゃへなにでいきますか。", romaji:"Kaisha e nani de ikimasu ka.", es:"¿En qué vas a la empresa?"},
+   {sp:"B", jp:"バスでいきます。", romaji:"Basu de ikimasu.", es:"Voy en autobús."}
+  ],
+  grammar:[
+   {point:"へ vs に (dirección)", expl:"へ marca la dirección general hacia la que uno se mueve. に también puede usarse para el destino con verbos de movimiento (いきます、きます、かえります); en la práctica, con estos verbos son intercambiables.", examples:[
+     {jp:"がっこうへいきます。", es:"Voy a la escuela."},
+     {jp:"がっこうにいきます。", es:"Voy a la escuela. (mismo sentido)"}
+   ]},
+   {point:"で (medio de transporte)", expl:"Marca el medio por el cual se realiza una acción — aquí, el transporte que se usa para llegar a algún lado.", examples:[
+     {jp:"でんしゃでいきます。", es:"Voy en tren."},
+     {jp:"バスでかえります。", es:"Regreso en autobús."}
+   ]},
+   {point:"あるいて (a pie) — excepción", expl:"'A pie' no lleva la partícula で; あるいて se usa directamente, sin partícula, antes del verbo de movimiento.", examples:[
+     {jp:"あるいていきます。", es:"Voy a pie / caminando."}
+   ]},
+   {point:"まで (hasta)", expl:"Marca el punto final de un trayecto: hasta dónde se llega.", examples:[
+     {jp:"えきまであるいていきます。", es:"Voy caminando hasta la estación."}
+   ]}
+  ],
+  quiz:[
+   {q:"でんしゃ___いきます。 (en tren)", options:["で","へ","を","と"], answer:0, explain:"で marca el medio de transporte usado."},
+   {q:"がっこう___いきます。 (dirección/destino)", options:["へ","で","を","と"], answer:0, explain:"へ marca la dirección hacia la que uno se mueve."},
+   {q:"¿Cómo se dice 'a pie'?", options:["あるいてで","あるいて","あしで","あるきます"], answer:1, explain:"あるいて se usa sin partícula で, a diferencia de los demás medios de transporte."},
+   {q:"えき___あるいていきます。 (hasta la estación)", options:["まで","へ","で","に"], answer:0, explain:"まで marca el punto final de un trayecto."},
+   {q:"Traduce: くうこう", options:["Aeropuerto","Estación de tren","Escuela","Empresa"], answer:0, explain:"くうこう significa 'aeropuerto'."}
+  ]
  }
 };
 
