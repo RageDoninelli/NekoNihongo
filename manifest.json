@@ -1,7 +1,7 @@
 {
-  "name": "手習い — Tenarai, kana desde cero",
-  "short_name": "Tenarai",
-  "description": "Aprende hiragana y katakana con mnemotecnia y práctica de escritura a mano.",
+  "name": "もち — Mochi, japonés desde cero",
+  "short_name": "Mochi",
+  "description": "Aprende japonés desde cero: hiragana, katakana, kanji, vocabulario y gramática, con mnemotecnia y práctica de escritura a mano.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

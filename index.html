@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>手習い — Kana desde cero</title>
+<title>もち — Mochi, japonés desde cero</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2B4570">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Tenarai">
+<meta name="apple-mobile-web-app-title" content="Mochi">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -45,6 +45,13 @@
     font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:700;
     transform:rotate(-3deg);
   }
+  .header-right{display:flex; align-items:center; gap:10px;}
+  .install-btn{
+    display:none; align-items:center; gap:5px; padding:7px 12px; border-radius:20px;
+    border:1px solid var(--indigo); background:var(--indigo); color:#fff;
+    font-family:inherit; font-size:12.5px; font-weight:700; cursor:pointer; white-space:nowrap;
+  }
+  .install-btn:active{opacity:.85;}
 
   main{flex:1; width:100%; max-width:480px; margin:0 auto; padding:20px; padding-bottom:90px;}
 
@@ -244,10 +251,13 @@
 
 <header>
   <div class="title">
-    <span class="jp">手習い</span>
-    <span class="sub">Tenarai · Kana</span>
+    <span class="jp">もち</span>
+    <span class="sub">Mochi · 日本語</span>
   </div>
-  <div class="seal">習</div>
+  <div class="header-right">
+    <button id="install-btn" class="install-btn">Instalar</button>
+    <div class="seal">餅</div>
+  </div>
 </header>
 
 <main>
@@ -2393,6 +2403,28 @@ window.addEventListener('resize', ()=>{
   if(ctx) setupCanvas(); renderGuide();
   if(wctx) setupWordCanvas(); renderWordGuide();
   if(kctx) setupKanjiCanvas(); renderKanjiGuide();
+});
+
+/* ---------------- PWA: botón de instalar ---------------- */
+function isStandaloneMode(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('install-btn');
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if(!isStandaloneMode()) installBtn.style.display = 'flex';
+});
+installBtn.addEventListener('click', async ()=>{
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installBtn.style.display = 'none';
+});
+window.addEventListener('appinstalled', ()=>{
+  installBtn.style.display = 'none';
 });
 
 /* ---------------- PWA: service worker ---------------- */
